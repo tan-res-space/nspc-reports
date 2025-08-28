@@ -1,0 +1,806 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>DME_Fulfillment_Analysis.md</title>
+<meta http-equiv="Content-type" content="text/html;charset=UTF-8">
+
+<style>
+/* https://github.com/microsoft/vscode/blob/master/extensions/markdown-language-features/media/markdown.css */
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+
+body {
+	font-family: var(--vscode-markdown-font-family, -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif);
+	font-size: var(--vscode-markdown-font-size, 14px);
+	padding: 0 26px;
+	line-height: var(--vscode-markdown-line-height, 22px);
+	word-wrap: break-word;
+}
+
+#code-csp-warning {
+	position: fixed;
+	top: 0;
+	right: 0;
+	color: white;
+	margin: 16px;
+	text-align: center;
+	font-size: 12px;
+	font-family: sans-serif;
+	background-color:#444444;
+	cursor: pointer;
+	padding: 6px;
+	box-shadow: 1px 1px 1px rgba(0,0,0,.25);
+}
+
+#code-csp-warning:hover {
+	text-decoration: none;
+	background-color:#007acc;
+	box-shadow: 2px 2px 2px rgba(0,0,0,.25);
+}
+
+body.scrollBeyondLastLine {
+	margin-bottom: calc(100vh - 22px);
+}
+
+body.showEditorSelection .code-line {
+	position: relative;
+}
+
+body.showEditorSelection .code-active-line:before,
+body.showEditorSelection .code-line:hover:before {
+	content: "";
+	display: block;
+	position: absolute;
+	top: 0;
+	left: -12px;
+	height: 100%;
+}
+
+body.showEditorSelection li.code-active-line:before,
+body.showEditorSelection li.code-line:hover:before {
+	left: -30px;
+}
+
+.vscode-light.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(0, 0, 0, 0.15);
+}
+
+.vscode-light.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(0, 0, 0, 0.40);
+}
+
+.vscode-light.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+.vscode-dark.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(255, 255, 255, 0.4);
+}
+
+.vscode-dark.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(255, 255, 255, 0.60);
+}
+
+.vscode-dark.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+.vscode-high-contrast.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(255, 160, 0, 0.7);
+}
+
+.vscode-high-contrast.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(255, 160, 0, 1);
+}
+
+.vscode-high-contrast.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+img {
+	max-width: 100%;
+	max-height: 100%;
+}
+
+a {
+	text-decoration: none;
+}
+
+a:hover {
+	text-decoration: underline;
+}
+
+a:focus,
+input:focus,
+select:focus,
+textarea:focus {
+	outline: 1px solid -webkit-focus-ring-color;
+	outline-offset: -1px;
+}
+
+hr {
+	border: 0;
+	height: 2px;
+	border-bottom: 2px solid;
+}
+
+h1 {
+	padding-bottom: 0.3em;
+	line-height: 1.2;
+	border-bottom-width: 1px;
+	border-bottom-style: solid;
+}
+
+h1, h2, h3 {
+	font-weight: normal;
+}
+
+table {
+	border-collapse: collapse;
+}
+
+table > thead > tr > th {
+	text-align: left;
+	border-bottom: 1px solid;
+}
+
+table > thead > tr > th,
+table > thead > tr > td,
+table > tbody > tr > th,
+table > tbody > tr > td {
+	padding: 5px 10px;
+}
+
+table > tbody > tr + tr > td {
+	border-top: 1px solid;
+}
+
+blockquote {
+	margin: 0 7px 0 5px;
+	padding: 0 16px 0 10px;
+	border-left-width: 5px;
+	border-left-style: solid;
+}
+
+code {
+	font-family: Menlo, Monaco, Consolas, "Droid Sans Mono", "Courier New", monospace, "Droid Sans Fallback";
+	font-size: 1em;
+	line-height: 1.357em;
+}
+
+body.wordWrap pre {
+	white-space: pre-wrap;
+}
+
+pre:not(.hljs),
+pre.hljs code > div {
+	padding: 16px;
+	border-radius: 3px;
+	overflow: auto;
+}
+
+pre code {
+	color: var(--vscode-editor-foreground);
+	tab-size: 4;
+}
+
+/** Theming */
+
+.vscode-light pre {
+	background-color: rgba(220, 220, 220, 0.4);
+}
+
+.vscode-dark pre {
+	background-color: rgba(10, 10, 10, 0.4);
+}
+
+.vscode-high-contrast pre {
+	background-color: rgb(0, 0, 0);
+}
+
+.vscode-high-contrast h1 {
+	border-color: rgb(0, 0, 0);
+}
+
+.vscode-light table > thead > tr > th {
+	border-color: rgba(0, 0, 0, 0.69);
+}
+
+.vscode-dark table > thead > tr > th {
+	border-color: rgba(255, 255, 255, 0.69);
+}
+
+.vscode-light h1,
+.vscode-light hr,
+.vscode-light table > tbody > tr + tr > td {
+	border-color: rgba(0, 0, 0, 0.18);
+}
+
+.vscode-dark h1,
+.vscode-dark hr,
+.vscode-dark table > tbody > tr + tr > td {
+	border-color: rgba(255, 255, 255, 0.18);
+}
+
+</style>
+
+<style>
+/* Tomorrow Theme */
+/* http://jmblog.github.com/color-themes-for-google-code-highlightjs */
+/* Original theme - https://github.com/chriskempson/tomorrow-theme */
+
+/* Tomorrow Comment */
+.hljs-comment,
+.hljs-quote {
+	color: #8e908c;
+}
+
+/* Tomorrow Red */
+.hljs-variable,
+.hljs-template-variable,
+.hljs-tag,
+.hljs-name,
+.hljs-selector-id,
+.hljs-selector-class,
+.hljs-regexp,
+.hljs-deletion {
+	color: #c82829;
+}
+
+/* Tomorrow Orange */
+.hljs-number,
+.hljs-built_in,
+.hljs-builtin-name,
+.hljs-literal,
+.hljs-type,
+.hljs-params,
+.hljs-meta,
+.hljs-link {
+	color: #f5871f;
+}
+
+/* Tomorrow Yellow */
+.hljs-attribute {
+	color: #eab700;
+}
+
+/* Tomorrow Green */
+.hljs-string,
+.hljs-symbol,
+.hljs-bullet,
+.hljs-addition {
+	color: #718c00;
+}
+
+/* Tomorrow Blue */
+.hljs-title,
+.hljs-section {
+	color: #4271ae;
+}
+
+/* Tomorrow Purple */
+.hljs-keyword,
+.hljs-selector-tag {
+	color: #8959a8;
+}
+
+.hljs {
+	display: block;
+	overflow-x: auto;
+	color: #4d4d4c;
+	padding: 0.5em;
+}
+
+.hljs-emphasis {
+	font-style: italic;
+}
+
+.hljs-strong {
+	font-weight: bold;
+}
+</style>
+
+<style>
+/*
+ * Markdown PDF CSS
+ */
+
+ body {
+	font-family: -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif, "Meiryo";
+	padding: 0 12px;
+}
+
+pre {
+	background-color: #f8f8f8;
+	border: 1px solid #cccccc;
+	border-radius: 3px;
+	overflow-x: auto;
+	white-space: pre-wrap;
+	overflow-wrap: break-word;
+}
+
+pre:not(.hljs) {
+	padding: 23px;
+	line-height: 19px;
+}
+
+blockquote {
+	background: rgba(127, 127, 127, 0.1);
+	border-color: rgba(0, 122, 204, 0.5);
+}
+
+.emoji {
+	height: 1.4em;
+}
+
+code {
+	font-size: 14px;
+	line-height: 19px;
+}
+
+/* for inline code */
+:not(pre):not(.hljs) > code {
+	color: #C9AE75; /* Change the old color so it seems less like an error */
+	font-size: inherit;
+}
+
+/* Page Break : use <div class="page"/> to insert page break
+-------------------------------------------------------- */
+.page {
+	page-break-after: always;
+}
+
+</style>
+
+<script src="https://unpkg.com/mermaid/dist/mermaid.min.js"></script>
+</head>
+<body>
+  <script>
+    mermaid.initialize({
+      startOnLoad: true,
+      theme: document.body.classList.contains('vscode-dark') || document.body.classList.contains('vscode-high-contrast')
+          ? 'dark'
+          : 'default'
+    });
+  </script>
+<h1 id="dme-fulfillment-reporting-system-analysis">DME Fulfillment Reporting System Analysis</h1>
+<h2 id="executive-summary">Executive Summary</h2>
+<p>The DME (Durable Medical Equipment) fulfillment reporting system links clinical DME orders placed in EMA with subsequent claims activity recorded in the enterprise Data Warehouse. This system enables healthcare leaders to measure whether ordered equipment and supplies were ultimately fulfilled, as evidenced by billed claims, and to quantify process effectiveness across facilities, providers, and patient populations.</p>
+<p>This reporting capability is critical because DME orders directly impact patient outcomes, revenue capture, and regulatory compliance. Accurate order-to-claim linkage reveals conversion rates (ordered vs. filled), identifies operational bottlenecks such as patient identity mismatches and facility mapping gaps, and supports targeted interventions to improve vendor handoffs, coding completeness, and denials management. In essence, it transforms operational activity into measurable business performance metrics.</p>
+<p>However, our analysis reveals several data quality issues that may be understating fulfillment rates and masking improvement opportunities. The current system relies on fragile data linking methods, has completeness gaps due to timing and mapping issues, and uses business logic that may miss legitimate fulfillment activities.</p>
+<h2 id="system-architecture">System Architecture</h2>
+<h3 id="data-flow-overview">Data Flow Overview</h3>
+<pre><code class="language-mermaid"><div class="mermaid">graph TD
+  subgraph "EMA Staging"
+    EMA_OL[order_log]
+    EMA_PAT[patient]
+    EMA_FAC[facility]
+  end
+
+  subgraph "Data Warehouse"
+    DW_FACT[Fact_FinancialTrans_Actual]
+    DW_DIM_PAT[Dim_Patient]
+    DW_DIM_PROC[Dim_Procedure]
+    DW_DIM_DATE[Dim_Date]
+    DW_DIM_LOC[Dim_Location]
+    DW_DIM_REGION[Dim_Region_Lookup]
+  end
+
+  EMA_OL --> DETAILS[vwRPT_OPS_DME_Details_2]
+  EMA_PAT --> DETAILS
+  EMA_FAC --> DETAILS
+
+  DW_FACT --> DETAILS
+  DW_DIM_PAT --> DETAILS
+  DW_DIM_PROC --> DETAILS
+  DW_DIM_DATE --> DETAILS
+  DW_DIM_LOC --> DETAILS
+  DW_DIM_REGION --> DETAILS
+
+  DETAILS --> RPT[RPT_OPS_DME_Details_2 - materialized]
+  RPT --> FUL[vwRPT_OPS_DME_Fulfillment_2]
+
+  %% Add filter annotations
+  EMA_OL -.-> N1["DMEPOS orders<br/>last 12 months"]
+  DW_FACT -.-> N2["Claims: E*/L* codes<br/>last 12 months"]
+
+  classDef note fill:#fff9c4,stroke:#fbc02d,color:#000
+  class N1,N2 note
+</div></code></pre>
+<h3 id="key-components">Key Components</h3>
+<ul>
+<li><strong>EMA Staging</strong>: Contains original DME orders with patient demographics and facility information</li>
+<li><strong>Data Warehouse</strong>: Houses processed claims data with comprehensive dimensional context</li>
+<li><strong>Details View</strong>: Combines order and claims data into patient-level records with contact information</li>
+<li><strong>Materialized Dataset</strong>: Performance-optimized copy of the details data</li>
+<li><strong>Fulfillment View</strong>: Summary-level reporting showing binary &quot;Ordered&quot; vs &quot;Filled&quot; indicators</li>
+</ul>
+<h2 id="business-process-flow">Business Process Flow</h2>
+<h3 id="dme-order-to-fulfillment-lifecycle">DME Order-to-Fulfillment Lifecycle</h3>
+<pre><code class="language-mermaid"><div class="mermaid">flowchart TD
+  A[Order placed in EMA - DMEPOS] --> B{Patient identity linked?}
+  B -->|Yes| C[Send order to DME vendor / internal processing]
+  B -->|No| Q[Potential mismatch: MRN or source system differences]
+
+  C --> D{Claim generated in DW?}
+  D -->|Yes| E[Check HCPCS against governed DME list]
+  D -->|No| R[Timing gap: claim not billed/posted yet]
+
+  E --> F{DOS >= Order Date and within window?}
+  F -->|Yes| G[Mark Fulfilled]
+  F -->|No| S[Out-of-window or earlier DOS]
+
+  G --> H[Summarize in Fulfillment view]
+  S --> H
+  R --> H
+  Q --> H
+
+  subgraph VAL ["Data Validation Points"]
+    V1[Normalize MRN & include SourceSystem]
+    V2[Facility crosswalk mapping]
+    V3[Approved DME HCPCS list]
+    V4[Latency thresholds 0-90/180 days]
+  end
+
+  B -.-> V1
+  C -.-> V2
+  E -.-> V3
+  F -.-> V4
+
+  subgraph ISSUES ["Potential Data Quality Issues"]
+    I1[Fragile linking: state+MRN]
+    I2[Unmatched orders due to facility mapping]
+    I3[Under-counting due to limited HCPCS]
+    I4[Mis-timed fulfillment due to independent lookbacks]
+  end
+
+  Q -.-> I1
+  R -.-> I4
+  S -.-> I4
+  C -.-> I2
+  E -.-> I3
+</div></code></pre>
+<h3 id="critical-decision-points">Critical Decision Points</h3>
+<ol>
+<li><strong>Patient Identity Linking</strong>: Can we reliably match the same patient across EMA and Data Warehouse systems?</li>
+<li><strong>Facility Mapping</strong>: Do facility identifiers align consistently between order and claims systems?</li>
+<li><strong>Code Coverage</strong>: Are we capturing all relevant DME-related procedure codes?</li>
+<li><strong>Timing Validation</strong>: Are claims appropriately linked to their originating orders by date?</li>
+</ol>
+<h2 id="sql-implementation-overview">SQL Implementation Overview</h2>
+<p>The DME fulfillment reporting system is implemented through two main SQL views:</p>
+<h3 id="primary-views-structure">Primary Views Structure</h3>
+<p><strong>vwRPT_OPS_DME_Fulfillment_2.sql</strong> (16 lines)</p>
+<ul>
+<li>Summary-level view that aggregates patient records into binary &quot;Ordered&quot; vs &quot;Filled&quot; indicators</li>
+<li>Groups by facility, provider, and patient to create reporting metrics</li>
+</ul>
+<p><strong>vwRPT_OPS_DME_Details_2.sql</strong> (57 lines)</p>
+<ul>
+<li>Detailed view that performs the core data linking between EMA orders and Data Warehouse claims</li>
+<li>Contains the business logic for patient matching, facility mapping, procedure code filtering, and timing validation</li>
+</ul>
+<h3 id="key-sql-components">Key SQL Components</h3>
+<p>The details view consists of two main subqueries:</p>
+<ol>
+<li><strong>Orders subquery (lines 15-31)</strong>: Extracts DME orders from EMA staging with patient and facility information</li>
+<li><strong>Claims subquery (lines 33-56)</strong>: Retrieves matching claims from the Data Warehouse with procedure codes and service dates</li>
+<li><strong>Linking logic (line 57)</strong>: Joins orders to claims using the fragile state+MRN key</li>
+</ol>
+<h2 id="data-quality-issues-summary">Data Quality Issues Summary</h2>
+<h3 id="1-data-linking-challenges">1. Data Linking Challenges</h3>
+<p><strong>Issue</strong>: The current system links EMA orders to Data Warehouse claims using a combination of facility state and patient medical record number (MRN). This approach is fragile and prone to mismatches.</p>
+<p><strong>Code Location</strong>: The problematic linking logic is implemented in the details view:</p>
+<pre class="hljs"><code><div><span class="hljs-comment">-- Lines 22, 30, 57 in vwRPT_OPS_DME_Details_2.sql</span>
+<span class="hljs-comment">-- Order side key calculation</span>
+(fac.facility_state + '_' + pat.mrn) ord_key_calc
+...
+GROUP BY (fac.facility_state + '_' + pat.mrn)
+...
+<span class="hljs-comment">-- Claims side matching</span>
+) chg ON ord.ord_key_calc = (chg.facility_state + '_' + chg.PatientNumber)
+</div></code></pre>
+<p><strong>Business Impact</strong>:</p>
+<ul>
+<li>Patients treated across state lines may not be properly matched</li>
+<li>MRN reuse across different facilities can cause incorrect linkages</li>
+<li>Inconsistent MRN formatting between systems leads to failed matches</li>
+</ul>
+<p><strong>Root Causes</strong>:</p>
+<ul>
+<li>No standardized patient identity management across systems</li>
+<li>Reliance on facility state rather than unique facility identifiers</li>
+<li>Lack of source system validation in the matching process</li>
+</ul>
+<h3 id="2-data-completeness-gaps">2. Data Completeness Gaps</h3>
+<p><strong>Issue</strong>: A significant portion of legitimate DME orders may not show corresponding claims, leading to understated fulfillment rates.</p>
+<p><strong>Code Location</strong>: The facility mapping issue is documented in the details view:</p>
+<pre class="hljs"><code><div><span class="hljs-comment">-- Line 26 in vwRPT_OPS_DME_Details_2.sql</span>
+<span class="hljs-comment">-- INNER JOIN [DataWarehouse].[dbo].[Dim_Location] dl ON fac.[name] = dl.facility --Drops ~10% of recs</span>
+</div></code></pre>
+<p><strong>Code Location</strong>: Independent lookback windows create timing misalignment:</p>
+<pre class="hljs"><code><div><span class="hljs-comment">-- Lines 28, 51 in vwRPT_OPS_DME_Details_2.sql</span>
+<span class="hljs-comment">-- Orders lookback (from today)</span>
+AND CONVERT(DATE,LEFT(ol.order_date,10)) &gt;= DATEADD(year, -1, GETDATE())
+...
+<span class="hljs-comment">-- Claims lookback (from today, independent of order dates)</span>
+AND dda.DateValue &gt;= DATEADD(MONTH, -12, CAST(GETDATE() AS DATE))
+</div></code></pre>
+<p><strong>Business Impact</strong>:</p>
+<ul>
+<li>Previous testing showed a 10% record drop when enforcing facility mapping</li>
+<li>Recent orders may appear &quot;unfilled&quot; due to normal billing delays</li>
+<li>Performance metrics may unfairly penalize high-performing facilities with mapping issues</li>
+</ul>
+<p><strong>Root Causes</strong>:</p>
+<ul>
+<li>Billing typically lags orders by days or weeks</li>
+<li>Facility name inconsistencies between EMA and Data Warehouse</li>
+<li>Independent 12-month lookback windows that don't align with order timing</li>
+</ul>
+<h3 id="3-business-logic-validation-issues">3. Business Logic Validation Issues</h3>
+<p><strong>Issue</strong>: The current procedure code filtering may miss legitimate DME fulfillment activities, and timing logic doesn't properly connect claims to their originating orders.</p>
+<p><strong>Code Location</strong>: Limited HCPCS code filtering excludes common DME codes:</p>
+<pre class="hljs"><code><div><span class="hljs-comment">-- Lines 53-54 in vwRPT_OPS_DME_Details_2.sql</span>
+AND ((dpr.ProcedureCode LIKE 'L%' AND dpr.ProcedureCode NOT LIKE 'L8680')
+ OR (dpr.ProcedureCode LIKE 'E%'))
+</div></code></pre>
+<p><strong>Code Location</strong>: MAX() function selection without proper date correlation:</p>
+<pre class="hljs"><code><div><span class="hljs-comment">-- Lines 39-40 in vwRPT_OPS_DME_Details_2.sql</span>
+MAX(dpr.ProcedureCode) Latest_ProcedureCode,
+MAX(dda.DateValue) Latest_ServiceDate
+</div></code></pre>
+<p><strong>Code Location</strong>: No validation that claims occur after orders:</p>
+<pre class="hljs"><code><div><span class="hljs-comment">-- Lines 28, 51 in vwRPT_OPS_DME_Details_2.sql</span>
+<span class="hljs-comment">-- Order date filter (no relationship to claim dates)</span>
+AND CONVERT(DATE,LEFT(ol.order_date,10)) &gt;= DATEADD(year, -1, GETDATE())
+...
+<span class="hljs-comment">-- Claim date filter (no relationship to order dates)</span>
+AND dda.DateValue &gt;= DATEADD(MONTH, -12, CAST(GETDATE() AS DATE))
+</div></code></pre>
+<p><strong>Business Impact</strong>:</p>
+<ul>
+<li>Common DME supply codes (A-codes for CPAP supplies, K-codes for wheelchairs) are excluded</li>
+<li>Claims may be counted as &quot;fulfillment&quot; even if they occurred before the order was placed</li>
+<li>The &quot;latest&quot; procedure code selection doesn't necessarily reflect the most recent service date</li>
+</ul>
+<p><strong>Root Causes</strong>:</p>
+<ul>
+<li>Limited HCPCS code set focused only on E-codes and L-codes (excluding L8680)</li>
+<li>Lookback periods tied to &quot;today&quot; rather than individual order dates</li>
+<li>Use of MAX() function for code selection without date correlation</li>
+</ul>
+<h3 id="4-missing-production-data-requirements">4. Missing Production Data Requirements</h3>
+<p><strong>Issue</strong>: Key data elements needed for accurate order-to-claims matching are not currently available or utilized.</p>
+<p><strong>Code Location</strong>: The fulfillment view only provides binary indicators without claim status:</p>
+<pre class="hljs"><code><div><span class="hljs-comment">-- Lines 8-9 in vwRPT_OPS_DME_Fulfillment_2.sql</span>
+,MAX(CASE WHEN [order_number] IS NOT NULL THEN 1 ELSE 0 <span class="hljs-keyword">END</span>) DME_Ordered
+,<span class="hljs-keyword">MAX</span>(<span class="hljs-keyword">CASE</span> <span class="hljs-keyword">WHEN</span> [cpt_product] <span class="hljs-keyword">IS</span> <span class="hljs-keyword">NOT</span> <span class="hljs-literal">NULL</span> <span class="hljs-keyword">THEN</span> <span class="hljs-number">1</span> <span class="hljs-keyword">ELSE</span> <span class="hljs-number">0</span> <span class="hljs-keyword">END</span>) DME_Filled
+</div></code></pre>
+<p><strong>Code Location</strong>: Claims filter only checks for existence, not status:</p>
+<pre class="hljs"><code><div><span class="hljs-comment">-- Line 55 in vwRPT_OPS_DME_Details_2.sql</span>
+AND f.ClaimID IS NOT NULL <span class="hljs-comment">--Only consider transactions with a claim.</span>
+</div></code></pre>
+<p><strong>Business Impact</strong>:</p>
+<ul>
+<li>Cannot distinguish between &quot;not filled,&quot; &quot;denied,&quot; and &quot;pending&quot; claims</li>
+<li>Limited ability to identify and address root causes of unfulfilled orders</li>
+<li>Missed opportunities for revenue recovery and process improvement</li>
+</ul>
+<p><strong>Root Causes</strong>:</p>
+<ul>
+<li>No patient identity crosswalk between systems</li>
+<li>Lack of curated facility mapping tables</li>
+<li>Missing claim status, denial reasons, and authorization data</li>
+</ul>
+<h2 id="impact-assessment">Impact Assessment</h2>
+<h3 id="quantified-business-effects">Quantified Business Effects</h3>
+<table>
+<thead>
+<tr>
+<th>Issue Category</th>
+<th>Estimated Impact</th>
+<th>Business Consequence</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Data Linking</strong></td>
+<td>5-15% underreporting</td>
+<td>Misleading provider/facility performance metrics</td>
+</tr>
+<tr>
+<td><strong>Completeness Gaps</strong></td>
+<td>10-20% missed matches</td>
+<td>Understated fulfillment rates, missed follow-up opportunities</td>
+</tr>
+<tr>
+<td><strong>Business Logic</strong></td>
+<td>5-10% scope gaps</td>
+<td>Incomplete visibility into supply chain fulfillment</td>
+</tr>
+<tr>
+<td><strong>Timing Alignment</strong></td>
+<td>3-8% misclassification</td>
+<td>Skewed KPI trends, misguided operational decisions</td>
+</tr>
+<tr>
+<td><strong>Missing Status Data</strong></td>
+<td>5-12% actionable insights</td>
+<td>Lost revenue recovery opportunities</td>
+</tr>
+</tbody>
+</table>
+<p><em>Note: Percentages are directional estimates based on observed patterns and should be validated through specific data quality assessments.</em></p>
+<h3 id="real-world-examples">Real-World Examples</h3>
+<ul>
+<li><strong>Cross-State Care</strong>: A patient receives a DME order in Virginia but gets the equipment filled at a facility in Maryland. Current linking by state would miss this fulfillment.</li>
+<li><strong>Billing Delays</strong>: An order placed on December 15th may not generate a claim until January, potentially falling outside the current reporting window.</li>
+<li><strong>Supply Codes</strong>: CPAP masks and supplies often use A-codes (e.g., A7030) which aren't captured by the current E-code and L-code filter.</li>
+<li><strong>Denied Claims</strong>: Orders may show as &quot;unfilled&quot; when claims exist but were denied for documentation issues, hiding recovery opportunities.</li>
+</ul>
+<h2 id="recommended-actions">Recommended Actions</h2>
+<h3 id="priority-1-high-impact-medium-effort">Priority 1: High Impact, Medium Effort</h3>
+<ol>
+<li>
+<p><strong>Implement Patient and Facility Crosswalks</strong></p>
+<ul>
+<li>Create standardized patient identity linking between EMA and Data Warehouse</li>
+<li>Develop curated facility mapping tables with unique identifiers</li>
+<li><strong>Expected Benefit</strong>: 10-15% improvement in match accuracy</li>
+<li><strong>Timeline</strong>: 2-3 months</li>
+</ul>
+</li>
+<li>
+<p><strong>Align Fulfillment Logic to Order-Level Timing</strong></p>
+<ul>
+<li>Link claims to specific orders based on date relationships</li>
+<li>Require claim date of service to be on or after order date within 0-180 days</li>
+<li><strong>Expected Benefit</strong>: More accurate fulfillment attribution and latency reporting</li>
+<li><strong>Timeline</strong>: 1-2 months</li>
+</ul>
+</li>
+</ol>
+<h3 id="priority-2-medium-impact-medium-effort">Priority 2: Medium Impact, Medium Effort</h3>
+<ol start="3">
+<li>
+<p><strong>Expand and Govern DME Procedure Code Set</strong></p>
+<ul>
+<li>Include A-codes for DME supplies and K-codes for wheelchair equipment</li>
+<li>Create maintained reference table with effective dates and inclusion rules</li>
+<li><strong>Expected Benefit</strong>: 5-10% increase in captured fulfillment activities</li>
+<li><strong>Timeline</strong>: 1-2 months</li>
+</ul>
+</li>
+<li>
+<p><strong>Add Claim Status and Denial Tracking</strong></p>
+<ul>
+<li>Include claim line status (paid/denied/pending) and denial reasons</li>
+<li>Enable distinction between &quot;not filled&quot; vs &quot;denied&quot; vs &quot;pending&quot;</li>
+<li><strong>Expected Benefit</strong>: Actionable insights for revenue recovery</li>
+<li><strong>Timeline</strong>: 2-3 months</li>
+</ul>
+</li>
+</ol>
+<h3 id="priority-3-low-impact-low-medium-effort">Priority 3: Low Impact, Low-Medium Effort</h3>
+<ol start="5">
+<li>
+<p><strong>Standardize Identifier Formatting</strong></p>
+<ul>
+<li>Normalize MRN formatting (remove punctuation, standardize case)</li>
+<li>Include source system validation in matching logic</li>
+<li><strong>Expected Benefit</strong>: Reduced false negatives in matching</li>
+<li><strong>Timeline</strong>: 1 month</li>
+</ul>
+</li>
+<li>
+<p><strong>Build Ongoing Quality Monitoring</strong></p>
+<ul>
+<li>Create dashboards for match rates, latency distributions, and code coverage</li>
+<li>Implement alerts for significant changes in fulfillment patterns</li>
+<li><strong>Expected Benefit</strong>: Early detection of data quality issues</li>
+<li><strong>Timeline</strong>: 1-2 months</li>
+</ul>
+</li>
+</ol>
+<h2 id="next-steps">Next Steps</h2>
+<h3 id="immediate-actions-next-30-days">Immediate Actions (Next 30 Days)</h3>
+<ul>
+<li>Validate impact estimates through targeted data quality assessments</li>
+<li>Confirm availability of patient identity and facility crosswalk data</li>
+<li>Engage stakeholders to approve expanded HCPCS code set</li>
+</ul>
+<h3 id="short-term-implementation-30-90-days">Short-term Implementation (30-90 Days)</h3>
+<ul>
+<li>Create improved fulfillment view with order-level timing logic</li>
+<li>Implement basic identifier normalization and source system validation</li>
+<li>Begin development of patient and facility crosswalks</li>
+</ul>
+<h3 id="medium-term-enhancements-90-180-days">Medium-term Enhancements (90-180 Days)</h3>
+<ul>
+<li>Deploy comprehensive crosswalk-based matching</li>
+<li>Add claim status and denial reason tracking</li>
+<li>Launch quality monitoring dashboards</li>
+</ul>
+<h3 id="success-metrics">Success Metrics</h3>
+<ul>
+<li><strong>Match Rate Improvement</strong>: Target 90%+ of legitimate orders matched to claims</li>
+<li><strong>Timing Accuracy</strong>: Zero claims counted as fulfillment with date of service before order date</li>
+<li><strong>Code Coverage</strong>: Capture 95%+ of DME-related procedure codes in use</li>
+<li><strong>Actionable Insights</strong>: Distinguish fulfillment status for 100% of orders (filled/denied/pending)</li>
+</ul>
+<h2 id="sql-code-reference">SQL Code Reference</h2>
+<h3 id="file-locations">File Locations</h3>
+<ul>
+<li><strong>Main Fulfillment View</strong>: <code>/dme-reports/sql_scripts/vwRPT_OPS_DME_Fulfillment_2.sql</code></li>
+<li><strong>Details View</strong>: <code>/dme-reports/sql_scripts/vwRPT_OPS_DME_Details_2.sql</code></li>
+</ul>
+<h3 id="key-code-sections-by-issue">Key Code Sections by Issue</h3>
+<table>
+<thead>
+<tr>
+<th>Issue</th>
+<th>File</th>
+<th>Lines</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Data Linking</strong></td>
+<td>vwRPT_OPS_DME_Details_2.sql</td>
+<td>22, 30, 57</td>
+<td>Fragile state+MRN key calculation and matching</td>
+</tr>
+<tr>
+<td><strong>Facility Mapping</strong></td>
+<td>vwRPT_OPS_DME_Details_2.sql</td>
+<td>26</td>
+<td>Commented facility crosswalk (drops 10% of records)</td>
+</tr>
+<tr>
+<td><strong>Timing Misalignment</strong></td>
+<td>vwRPT_OPS_DME_Details_2.sql</td>
+<td>28, 51</td>
+<td>Independent 12-month lookbacks from today</td>
+</tr>
+<tr>
+<td><strong>Limited HCPCS Codes</strong></td>
+<td>vwRPT_OPS_DME_Details_2.sql</td>
+<td>53-54</td>
+<td>E*/L* filter excluding A-codes and K-codes</td>
+</tr>
+<tr>
+<td><strong>MAX() Logic Issues</strong></td>
+<td>vwRPT_OPS_DME_Details_2.sql</td>
+<td>39-40</td>
+<td>Procedure code selection without date correlation</td>
+</tr>
+<tr>
+<td><strong>Binary Indicators</strong></td>
+<td>vwRPT_OPS_DME_Fulfillment_2.sql</td>
+<td>8-9</td>
+<td>Simple ordered/filled flags without claim status</td>
+</tr>
+<tr>
+<td><strong>Claim Existence Only</strong></td>
+<td>vwRPT_OPS_DME_Details_2.sql</td>
+<td>55</td>
+<td>No distinction between paid/denied/pending</td>
+</tr>
+</tbody>
+</table>
+<h3 id="data-flow-summary">Data Flow Summary</h3>
+<ol>
+<li><strong>Orders</strong> (lines 15-31): EMA staging → facility_state + MRN key</li>
+<li><strong>Claims</strong> (lines 33-56): Data Warehouse → facility_state + PatientNumber key</li>
+<li><strong>Matching</strong> (line 57): LEFT JOIN on composite keys</li>
+<li><strong>Aggregation</strong> (Fulfillment view): MAX() functions for binary indicators</li>
+</ol>
+<hr>
+<p><em>This analysis provides the foundation for improving DME fulfillment reporting accuracy and business value. Implementation should proceed in phases with regular validation to ensure expected benefits are realized.</em></p>
+
+</body>
+</html>

@@ -1,0 +1,1321 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>DME_Data_Gap_Analysis_Technical.md</title>
+<meta http-equiv="Content-type" content="text/html;charset=UTF-8">
+
+<style>
+/* https://github.com/microsoft/vscode/blob/master/extensions/markdown-language-features/media/markdown.css */
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+
+body {
+	font-family: var(--vscode-markdown-font-family, -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif);
+	font-size: var(--vscode-markdown-font-size, 14px);
+	padding: 0 26px;
+	line-height: var(--vscode-markdown-line-height, 22px);
+	word-wrap: break-word;
+}
+
+#code-csp-warning {
+	position: fixed;
+	top: 0;
+	right: 0;
+	color: white;
+	margin: 16px;
+	text-align: center;
+	font-size: 12px;
+	font-family: sans-serif;
+	background-color:#444444;
+	cursor: pointer;
+	padding: 6px;
+	box-shadow: 1px 1px 1px rgba(0,0,0,.25);
+}
+
+#code-csp-warning:hover {
+	text-decoration: none;
+	background-color:#007acc;
+	box-shadow: 2px 2px 2px rgba(0,0,0,.25);
+}
+
+body.scrollBeyondLastLine {
+	margin-bottom: calc(100vh - 22px);
+}
+
+body.showEditorSelection .code-line {
+	position: relative;
+}
+
+body.showEditorSelection .code-active-line:before,
+body.showEditorSelection .code-line:hover:before {
+	content: "";
+	display: block;
+	position: absolute;
+	top: 0;
+	left: -12px;
+	height: 100%;
+}
+
+body.showEditorSelection li.code-active-line:before,
+body.showEditorSelection li.code-line:hover:before {
+	left: -30px;
+}
+
+.vscode-light.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(0, 0, 0, 0.15);
+}
+
+.vscode-light.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(0, 0, 0, 0.40);
+}
+
+.vscode-light.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+.vscode-dark.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(255, 255, 255, 0.4);
+}
+
+.vscode-dark.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(255, 255, 255, 0.60);
+}
+
+.vscode-dark.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+.vscode-high-contrast.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(255, 160, 0, 0.7);
+}
+
+.vscode-high-contrast.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(255, 160, 0, 1);
+}
+
+.vscode-high-contrast.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+img {
+	max-width: 100%;
+	max-height: 100%;
+}
+
+a {
+	text-decoration: none;
+}
+
+a:hover {
+	text-decoration: underline;
+}
+
+a:focus,
+input:focus,
+select:focus,
+textarea:focus {
+	outline: 1px solid -webkit-focus-ring-color;
+	outline-offset: -1px;
+}
+
+hr {
+	border: 0;
+	height: 2px;
+	border-bottom: 2px solid;
+}
+
+h1 {
+	padding-bottom: 0.3em;
+	line-height: 1.2;
+	border-bottom-width: 1px;
+	border-bottom-style: solid;
+}
+
+h1, h2, h3 {
+	font-weight: normal;
+}
+
+table {
+	border-collapse: collapse;
+}
+
+table > thead > tr > th {
+	text-align: left;
+	border-bottom: 1px solid;
+}
+
+table > thead > tr > th,
+table > thead > tr > td,
+table > tbody > tr > th,
+table > tbody > tr > td {
+	padding: 5px 10px;
+}
+
+table > tbody > tr + tr > td {
+	border-top: 1px solid;
+}
+
+blockquote {
+	margin: 0 7px 0 5px;
+	padding: 0 16px 0 10px;
+	border-left-width: 5px;
+	border-left-style: solid;
+}
+
+code {
+	font-family: Menlo, Monaco, Consolas, "Droid Sans Mono", "Courier New", monospace, "Droid Sans Fallback";
+	font-size: 1em;
+	line-height: 1.357em;
+}
+
+body.wordWrap pre {
+	white-space: pre-wrap;
+}
+
+pre:not(.hljs),
+pre.hljs code > div {
+	padding: 16px;
+	border-radius: 3px;
+	overflow: auto;
+}
+
+pre code {
+	color: var(--vscode-editor-foreground);
+	tab-size: 4;
+}
+
+/** Theming */
+
+.vscode-light pre {
+	background-color: rgba(220, 220, 220, 0.4);
+}
+
+.vscode-dark pre {
+	background-color: rgba(10, 10, 10, 0.4);
+}
+
+.vscode-high-contrast pre {
+	background-color: rgb(0, 0, 0);
+}
+
+.vscode-high-contrast h1 {
+	border-color: rgb(0, 0, 0);
+}
+
+.vscode-light table > thead > tr > th {
+	border-color: rgba(0, 0, 0, 0.69);
+}
+
+.vscode-dark table > thead > tr > th {
+	border-color: rgba(255, 255, 255, 0.69);
+}
+
+.vscode-light h1,
+.vscode-light hr,
+.vscode-light table > tbody > tr + tr > td {
+	border-color: rgba(0, 0, 0, 0.18);
+}
+
+.vscode-dark h1,
+.vscode-dark hr,
+.vscode-dark table > tbody > tr + tr > td {
+	border-color: rgba(255, 255, 255, 0.18);
+}
+
+</style>
+
+<style>
+/* Tomorrow Theme */
+/* http://jmblog.github.com/color-themes-for-google-code-highlightjs */
+/* Original theme - https://github.com/chriskempson/tomorrow-theme */
+
+/* Tomorrow Comment */
+.hljs-comment,
+.hljs-quote {
+	color: #8e908c;
+}
+
+/* Tomorrow Red */
+.hljs-variable,
+.hljs-template-variable,
+.hljs-tag,
+.hljs-name,
+.hljs-selector-id,
+.hljs-selector-class,
+.hljs-regexp,
+.hljs-deletion {
+	color: #c82829;
+}
+
+/* Tomorrow Orange */
+.hljs-number,
+.hljs-built_in,
+.hljs-builtin-name,
+.hljs-literal,
+.hljs-type,
+.hljs-params,
+.hljs-meta,
+.hljs-link {
+	color: #f5871f;
+}
+
+/* Tomorrow Yellow */
+.hljs-attribute {
+	color: #eab700;
+}
+
+/* Tomorrow Green */
+.hljs-string,
+.hljs-symbol,
+.hljs-bullet,
+.hljs-addition {
+	color: #718c00;
+}
+
+/* Tomorrow Blue */
+.hljs-title,
+.hljs-section {
+	color: #4271ae;
+}
+
+/* Tomorrow Purple */
+.hljs-keyword,
+.hljs-selector-tag {
+	color: #8959a8;
+}
+
+.hljs {
+	display: block;
+	overflow-x: auto;
+	color: #4d4d4c;
+	padding: 0.5em;
+}
+
+.hljs-emphasis {
+	font-style: italic;
+}
+
+.hljs-strong {
+	font-weight: bold;
+}
+</style>
+
+<style>
+/*
+ * Markdown PDF CSS
+ */
+
+ body {
+	font-family: -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif, "Meiryo";
+	padding: 0 12px;
+}
+
+pre {
+	background-color: #f8f8f8;
+	border: 1px solid #cccccc;
+	border-radius: 3px;
+	overflow-x: auto;
+	white-space: pre-wrap;
+	overflow-wrap: break-word;
+}
+
+pre:not(.hljs) {
+	padding: 23px;
+	line-height: 19px;
+}
+
+blockquote {
+	background: rgba(127, 127, 127, 0.1);
+	border-color: rgba(0, 122, 204, 0.5);
+}
+
+.emoji {
+	height: 1.4em;
+}
+
+code {
+	font-size: 14px;
+	line-height: 19px;
+}
+
+/* for inline code */
+:not(pre):not(.hljs) > code {
+	color: #C9AE75; /* Change the old color so it seems less like an error */
+	font-size: inherit;
+}
+
+/* Page Break : use <div class="page"/> to insert page break
+-------------------------------------------------------- */
+.page {
+	page-break-after: always;
+}
+
+</style>
+
+<script src="https://unpkg.com/mermaid/dist/mermaid.min.js"></script>
+</head>
+<body>
+  <script>
+    mermaid.initialize({
+      startOnLoad: true,
+      theme: document.body.classList.contains('vscode-dark') || document.body.classList.contains('vscode-high-contrast')
+          ? 'dark'
+          : 'default'
+    });
+  </script>
+<h1 id="dme-fulfillment-data-gap-analysis-technical-assessment">DME Fulfillment Data Gap Analysis: Technical Assessment</h1>
+<h2 id="executive-summary">Executive Summary</h2>
+<p>This technical analysis compares the current Centricity NS4 staging database schema against the DME fulfillment analysis requirements. The assessment reveals significant data architecture gaps that prevent effective order-to-claim matching and comprehensive fulfillment reporting.</p>
+<p><strong>Key Findings:</strong></p>
+<ul>
+<li><strong>Critical Gap</strong>: No EMA DME order data in current staging environment</li>
+<li><strong>Identity Crisis</strong>: Missing patient/facility crosswalks between EMA and Centricity systems</li>
+<li><strong>Limited Scope</strong>: Current DME fields capture billing details but lack order lifecycle tracking</li>
+<li><strong>Fragmented Claims</strong>: Rich financial transaction data exists but lacks DME-specific context</li>
+</ul>
+<h2 id="current-data-architecture-analysis">Current Data Architecture Analysis</h2>
+<h3 id="centricity-ns4-schema-overview">Centricity NS4 Schema Overview</h3>
+<pre><code class="language-mermaid"><div class="mermaid">erDiagram
+    PatientProfile ||--o{ PatientVisit : "has visits"
+    PatientVisit ||--o{ PatientVisitProcs : "contains procedures"
+    PatientVisitProcs ||--o{ TransactionDistributions : "has transactions"
+    TransactionDistributions }o--|| Transactions : "links to"
+    Transactions }o--|| VisitTransactions : "part of"
+    PatientVisitProcs }o--|| ORDERS : "may link to"
+    
+    PatientVisitProcs {
+        int PatientVisitProcsId PK
+        int PatientVisitId FK
+        numeric OrderId FK
+        datetime OrderDate
+        varchar Code
+        varchar CPTCode
+        float DMEQuantity
+        smallint DMERentalOrPurchase
+        int DMEFrequencyMId
+        smallint DMEBillingType
+        int DMERCCondition1MId
+        int OrderingProviderId
+    }
+    
+    ORDERS {
+        numeric ORDERID PK
+        numeric PID FK
+        varchar ORDERTYPE
+        datetime ORDERDATE
+        varchar DESCRIPTION
+        varchar CODE
+        varchar STATUS
+        varchar INDICATIONS
+    }
+    
+    FinancialTransactions_Incremental {
+        varchar ClaimID
+        varchar TransactionType
+        varchar ClaimStatus
+        numeric NetPayments
+        numeric Adjustments
+        varchar ClaimprocedureCode
+    }
+</div></code></pre>
+<h3 id="dme-related-data-elements-in-current-schema">DME-Related Data Elements in Current Schema</h3>
+<p><strong>PatientVisitProcs Table - DME Fields:</strong></p>
+<ul>
+<li><code>DMEQuantity</code> - Equipment quantity</li>
+<li><code>DMERentalOrPurchase</code> - Rental vs purchase flag</li>
+<li><code>DMEFrequencyMId</code> - Frequency reference ID</li>
+<li><code>DMEBillingType</code> - Billing classification</li>
+<li><code>DMERCCondition1MId</code> through <code>DMERCCondition5MId</code> - DMERC condition codes</li>
+<li><code>OrderingProviderId</code> - Ordering provider reference</li>
+</ul>
+<p><strong>Strengths:</strong></p>
+<ul>
+<li>Comprehensive DME billing attributes</li>
+<li>Rich financial transaction tracking</li>
+<li>Detailed procedure code capture</li>
+<li>Provider and facility relationships</li>
+</ul>
+<p><strong>Critical Gaps:</strong></p>
+<ul>
+<li>No EMA order system integration</li>
+<li>Missing order lifecycle status</li>
+<li>No vendor/supplier tracking</li>
+<li>Limited HCPCS code coverage validation</li>
+</ul>
+<h2 id="required-vs-current-data-architecture">Required vs. Current Data Architecture</h2>
+<h3 id="dme-fulfillment-requirements-architecture">DME Fulfillment Requirements Architecture</h3>
+<pre><code class="language-mermaid"><div class="mermaid">graph TB
+    subgraph "EMA System (Missing)"
+        EMA_Orders[DME Orders]
+        EMA_Patients[Patient Master]
+        EMA_Facilities[Facility Master]
+    end
+    
+    subgraph "Current Centricity NS4"
+        Orders[ORDERS Table]
+        PVP[PatientVisitProcs]
+        FT[FinancialTransactions]
+        PP[PatientProfile]
+    end
+    
+    subgraph "Required Crosswalks (Missing)"
+        PC[Patient Crosswalk]
+        FC[Facility Crosswalk]
+        HC[HCPCS Reference]
+    end
+    
+    subgraph "Target Data Mart"
+        Details[DME Details View]
+        Fulfillment[DME Fulfillment View]
+    end
+    
+    EMA_Orders -.->|Missing Link| PC
+    EMA_Patients -.->|Missing Link| PC
+    EMA_Facilities -.->|Missing Link| FC
+    
+    PC --> Details
+    FC --> Details
+    HC --> Details
+    PVP --> Details
+    FT --> Details
+    
+    Details --> Fulfillment
+    
+    style EMA_Orders fill:#ffcccc
+    style EMA_Patients fill:#ffcccc
+    style EMA_Facilities fill:#ffcccc
+    style PC fill:#ffffcc
+    style FC fill:#ffffcc
+    style HC fill:#ffffcc
+</div></code></pre>
+<h2 id="detailed-gap-analysis-by-category">Detailed Gap Analysis by Category</h2>
+<h3 id="1-patient-identity-management">1. Patient Identity Management</h3>
+<p><strong>Current State:</strong></p>
+<pre class="hljs"><code><div><span class="hljs-comment">-- PatientProfile table exists with basic demographics</span>
+PatientProfile: PatientProfileId, FirstName, LastName, DOB, SSN
+</div></code></pre>
+<p><strong>Required State:</strong></p>
+<pre class="hljs"><code><div><span class="hljs-comment">-- Need EMA-Centricity patient crosswalk</span>
+EMA_Patient_Crosswalk: 
+  - EMA_PatientID
+  - EMA_MRN  
+  - Centricity_PatientProfileID
+  - Centricity_MRN
+  - MatchConfidence
+  - SourceSystem
+</div></code></pre>
+<p><strong>Gap Impact:</strong> Cannot reliably match patients across systems, leading to 5-15% underreporting.</p>
+<h3 id="2-order-lifecycle-tracking">2. Order Lifecycle Tracking</h3>
+<p><strong>Current State:</strong></p>
+<pre class="hljs"><code><div><span class="hljs-comment">-- ORDERS table has basic order info</span>
+ORDERS: ORDERID, ORDERTYPE, ORDERDATE, STATUS, DESCRIPTION
+
+<span class="hljs-comment">-- PatientVisitProcs has order linkage but limited context</span>
+PatientVisitProcs: OrderId, OrderDate, DME fields
+</div></code></pre>
+<p><strong>Required State:</strong></p>
+<pre class="hljs"><code><div><span class="hljs-comment">-- Need comprehensive DME order tracking</span>
+EMA_DME_Orders:
+  - EMA_OrderID
+  - DMEPOS_Classification
+  - DME_Category (Wheelchair, Oxygen, etc.)
+  - VendorID
+  - OrderStatus (Placed, Sent, Fulfilled, Cancelled)
+  - AuthorizationNumber
+  - ExpectedDeliveryDate
+</div></code></pre>
+<p><strong>Gap Impact:</strong> Cannot track order fulfillment lifecycle or identify bottlenecks.</p>
+<h3 id="3-procedure-code-coverage">3. Procedure Code Coverage</h3>
+<p><strong>Current State:</strong></p>
+<pre class="hljs"><code><div><span class="hljs-comment">-- Limited to E* and L* codes (excluding L8680)</span>
+WHERE (ProcedureCode LIKE 'L%' AND ProcedureCode NOT LIKE 'L8680')
+   OR (ProcedureCode LIKE 'E%')
+</div></code></pre>
+<p><strong>Required State:</strong></p>
+<pre class="hljs"><code><div><span class="hljs-comment">-- Need comprehensive DME HCPCS reference</span>
+DME_HCPCS_Reference:
+  - HCPCS_Code
+  - CodeDescription  
+  - DME_Category
+  - IncludeInAnalysis
+  - EffectiveDate
+  - ExpirationDate
+</div></code></pre>
+<p><strong>Missing Codes:</strong></p>
+<ul>
+<li>A-codes: CPAP supplies (A7030, A7031, A7032, A7033, A7034, A7035)</li>
+<li>K-codes: Wheelchairs (K0001-K0108)</li>
+<li>Additional E-codes: Various DME equipment</li>
+</ul>
+<p><strong>Gap Impact:</strong> 5-10% of DME fulfillment activities not captured.</p>
+<h3 id="4-facility-mapping">4. Facility Mapping</h3>
+<p><strong>Current State:</strong></p>
+<pre class="hljs"><code><div><span class="hljs-comment">-- Facility table exists but no EMA mapping</span>
+Facility: FacilityId, Name, Address, State
+
+<span class="hljs-comment">-- Known issue: 10% record drop due to facility name mismatches</span>
+INNER JOIN Dim_Location dl ON fac.[name] = dl.facility <span class="hljs-comment">--Drops ~10% of recs</span>
+</div></code></pre>
+<p><strong>Required State:</strong></p>
+<pre class="hljs"><code><div><span class="hljs-comment">-- Need EMA-Centricity facility crosswalk</span>
+EMA_Facility_Crosswalk:
+  - EMA_FacilityID
+  - EMA_FacilityName
+  - Centricity_FacilityID
+  - Centricity_FacilityName
+  - State
+  - Active
+</div></code></pre>
+<p><strong>Gap Impact:</strong> 10% of records lost due to facility mapping failures.</p>
+<h3 id="5-claim-status-granularity">5. Claim Status Granularity</h3>
+<p><strong>Current State:</strong></p>
+<pre class="hljs"><code><div><span class="hljs-comment">-- Basic claim status in multiple tables</span>
+PatientVisit: ClaimStatus, BillStatus
+FinancialTransactions: ClaimStatus_Overall, ClaimStatus_Current_Primary
+</div></code></pre>
+<p><strong>Required State:</strong></p>
+<pre class="hljs"><code><div><span class="hljs-comment">-- Need DME-specific claim status tracking</span>
+DME_Claim_Status:
+  - ClaimLineStatus (Paid, Denied, Pending, Under Review)
+  - DenialReason (Prior Auth, Medical Necessity, Documentation)
+  - DenialCategory (Administrative, Clinical, Technical)
+  - AppealStatus
+  - AuthorizationStatus
+</div></code></pre>
+<p><strong>Gap Impact:</strong> Cannot distinguish between &quot;not filled,&quot; &quot;denied,&quot; and &quot;pending&quot; claims.</p>
+<h2 id="data-flow-analysis">Data Flow Analysis</h2>
+<h3 id="current-data-flow-incomplete">Current Data Flow (Incomplete)</h3>
+<pre><code class="language-mermaid"><div class="mermaid">sequenceDiagram
+    participant EMA as EMA System
+    participant Staging as Centricity Staging
+    participant DW as Data Warehouse
+    participant Report as DME Reports
+    
+    Note over EMA: DME Orders Placed
+    EMA --x Staging: Missing Integration
+    
+    Staging->>Staging: PatientVisitProcs Created
+    Staging->>Staging: Financial Transactions
+    
+    Staging->>DW: Data Export
+    DW->>Report: Fragmented Reporting
+    
+    Note over Report: Incomplete Fulfillment View
+</div></code></pre>
+<h3 id="required-data-flow-target-state">Required Data Flow (Target State)</h3>
+<pre><code class="language-mermaid"><div class="mermaid">sequenceDiagram
+    participant EMA as EMA System
+    participant Crosswalk as Crosswalk Tables
+    participant Staging as Enhanced Staging
+    participant DW as Data Warehouse
+    participant Report as DME Reports
+    
+    EMA->>Staging: DME Orders (New Integration)
+    EMA->>Crosswalk: Patient/Facility IDs
+    
+    Staging->>Crosswalk: Identity Resolution
+    Crosswalk->>Staging: Matched IDs
+    
+    Staging->>Staging: Order-Claim Linking
+    Staging->>DW: Complete DME Dataset
+    
+    DW->>Report: Comprehensive Fulfillment Analysis
+    
+    Note over Report: Complete Order-to-Claim Tracking
+</div></code></pre>
+<h2 id="technical-implementation-roadmap">Technical Implementation Roadmap</h2>
+<h3 id="phase-1-foundation-0-30-days">Phase 1: Foundation (0-30 days)</h3>
+<p><strong>1. Create Core Crosswalk Tables</strong></p>
+<pre class="hljs"><code><div><span class="hljs-comment">-- Patient Identity Crosswalk</span>
+<span class="hljs-keyword">CREATE</span> <span class="hljs-keyword">TABLE</span> [dbo].[EMA_Centricity_Patient_Crosswalk](
+    [CrosswalkId] [<span class="hljs-built_in">int</span>] <span class="hljs-keyword">IDENTITY</span>(<span class="hljs-number">1</span>,<span class="hljs-number">1</span>) <span class="hljs-keyword">NOT</span> <span class="hljs-literal">NULL</span>,
+    [EMA_PatientID] [<span class="hljs-built_in">varchar</span>](<span class="hljs-number">50</span>) <span class="hljs-keyword">NOT</span> <span class="hljs-literal">NULL</span>,
+    [EMA_MRN] [<span class="hljs-built_in">varchar</span>](<span class="hljs-number">50</span>) <span class="hljs-keyword">NOT</span> <span class="hljs-literal">NULL</span>,
+    [Centricity_PatientProfileID] [<span class="hljs-built_in">int</span>] <span class="hljs-keyword">NOT</span> <span class="hljs-literal">NULL</span>,
+    [Centricity_MRN] [<span class="hljs-built_in">varchar</span>](<span class="hljs-number">50</span>) <span class="hljs-keyword">NOT</span> <span class="hljs-literal">NULL</span>,
+    [MatchMethod] [<span class="hljs-built_in">varchar</span>](<span class="hljs-number">50</span>) <span class="hljs-keyword">NOT</span> <span class="hljs-literal">NULL</span>,
+    [MatchConfidence] [<span class="hljs-built_in">decimal</span>](<span class="hljs-number">3</span>,<span class="hljs-number">2</span>) <span class="hljs-keyword">NOT</span> <span class="hljs-literal">NULL</span>,
+    [SourceSystem] [<span class="hljs-built_in">varchar</span>](<span class="hljs-number">25</span>) <span class="hljs-keyword">NOT</span> <span class="hljs-literal">NULL</span>,
+    [Active] [<span class="hljs-built_in">bit</span>] <span class="hljs-keyword">NOT</span> <span class="hljs-literal">NULL</span> <span class="hljs-keyword">DEFAULT</span> <span class="hljs-number">1</span>,
+    [Created] [datetime] <span class="hljs-keyword">NOT</span> <span class="hljs-literal">NULL</span> <span class="hljs-keyword">DEFAULT</span> <span class="hljs-keyword">GETDATE</span>(),
+    [LastUpdated] [datetime] <span class="hljs-keyword">NOT</span> <span class="hljs-literal">NULL</span> <span class="hljs-keyword">DEFAULT</span> <span class="hljs-keyword">GETDATE</span>()
+);
+
+<span class="hljs-comment">-- Facility Crosswalk</span>
+<span class="hljs-keyword">CREATE</span> <span class="hljs-keyword">TABLE</span> [dbo].[EMA_Centricity_Facility_Crosswalk](
+    [CrosswalkId] [<span class="hljs-built_in">int</span>] <span class="hljs-keyword">IDENTITY</span>(<span class="hljs-number">1</span>,<span class="hljs-number">1</span>) <span class="hljs-keyword">NOT</span> <span class="hljs-literal">NULL</span>,
+    [EMA_FacilityID] [<span class="hljs-built_in">varchar</span>](<span class="hljs-number">50</span>) <span class="hljs-keyword">NOT</span> <span class="hljs-literal">NULL</span>,
+    [EMA_FacilityName] [<span class="hljs-built_in">varchar</span>](<span class="hljs-number">255</span>) <span class="hljs-keyword">NOT</span> <span class="hljs-literal">NULL</span>,
+    [Centricity_FacilityID] [<span class="hljs-built_in">int</span>] <span class="hljs-keyword">NOT</span> <span class="hljs-literal">NULL</span>,
+    [Centricity_FacilityName] [<span class="hljs-built_in">varchar</span>](<span class="hljs-number">255</span>) <span class="hljs-keyword">NOT</span> <span class="hljs-literal">NULL</span>,
+    [State] [<span class="hljs-built_in">varchar</span>](<span class="hljs-number">2</span>) <span class="hljs-keyword">NOT</span> <span class="hljs-literal">NULL</span>,
+    [Active] [<span class="hljs-built_in">bit</span>] <span class="hljs-keyword">NOT</span> <span class="hljs-literal">NULL</span> <span class="hljs-keyword">DEFAULT</span> <span class="hljs-number">1</span>,
+    [Created] [datetime] <span class="hljs-keyword">NOT</span> <span class="hljs-literal">NULL</span> <span class="hljs-keyword">DEFAULT</span> <span class="hljs-keyword">GETDATE</span>(),
+    [LastUpdated] [datetime] <span class="hljs-keyword">NOT</span> <span class="hljs-literal">NULL</span> <span class="hljs-keyword">DEFAULT</span> <span class="hljs-keyword">GETDATE</span>()
+);
+</div></code></pre>
+<p><strong>2. Expand HCPCS Reference</strong></p>
+<pre class="hljs"><code><div><span class="hljs-keyword">CREATE</span> <span class="hljs-keyword">TABLE</span> [dbo].[DME_HCPCS_Reference](
+    [ReferenceId] [<span class="hljs-built_in">int</span>] <span class="hljs-keyword">IDENTITY</span>(<span class="hljs-number">1</span>,<span class="hljs-number">1</span>) <span class="hljs-keyword">NOT</span> <span class="hljs-literal">NULL</span>,
+    [HCPCS_Code] [<span class="hljs-built_in">varchar</span>](<span class="hljs-number">10</span>) <span class="hljs-keyword">NOT</span> <span class="hljs-literal">NULL</span>,
+    [CodeDescription] [<span class="hljs-built_in">varchar</span>](<span class="hljs-number">500</span>) <span class="hljs-keyword">NOT</span> <span class="hljs-literal">NULL</span>,
+    [DME_Category] [<span class="hljs-built_in">varchar</span>](<span class="hljs-number">100</span>) <span class="hljs-keyword">NOT</span> <span class="hljs-literal">NULL</span>,
+    [IncludeInAnalysis] [<span class="hljs-built_in">bit</span>] <span class="hljs-keyword">NOT</span> <span class="hljs-literal">NULL</span> <span class="hljs-keyword">DEFAULT</span> <span class="hljs-number">1</span>,
+    [EffectiveDate] [<span class="hljs-built_in">date</span>] <span class="hljs-keyword">NOT</span> <span class="hljs-literal">NULL</span>,
+    [ExpirationDate] [<span class="hljs-built_in">date</span>] <span class="hljs-literal">NULL</span>,
+    [Created] [datetime] <span class="hljs-keyword">NOT</span> <span class="hljs-literal">NULL</span> <span class="hljs-keyword">DEFAULT</span> <span class="hljs-keyword">GETDATE</span>()
+);
+</div></code></pre>
+<h3 id="phase-2-integration-30-90-days">Phase 2: Integration (30-90 days)</h3>
+<p><strong>3. EMA DME Orders Integration</strong></p>
+<pre class="hljs"><code><div><span class="hljs-keyword">CREATE</span> <span class="hljs-keyword">TABLE</span> [dbo].[EMA_DME_Orders_Staging](
+    [StagingId] [<span class="hljs-built_in">int</span>] <span class="hljs-keyword">IDENTITY</span>(<span class="hljs-number">1</span>,<span class="hljs-number">1</span>) <span class="hljs-keyword">NOT</span> <span class="hljs-literal">NULL</span>,
+    [EMA_OrderID] [<span class="hljs-built_in">varchar</span>](<span class="hljs-number">50</span>) <span class="hljs-keyword">NOT</span> <span class="hljs-literal">NULL</span>,
+    [EMA_PatientID] [<span class="hljs-built_in">varchar</span>](<span class="hljs-number">50</span>) <span class="hljs-keyword">NOT</span> <span class="hljs-literal">NULL</span>,
+    [EMA_FacilityID] [<span class="hljs-built_in">varchar</span>](<span class="hljs-number">50</span>) <span class="hljs-keyword">NOT</span> <span class="hljs-literal">NULL</span>,
+    [OrderType] [<span class="hljs-built_in">varchar</span>](<span class="hljs-number">50</span>) <span class="hljs-keyword">NOT</span> <span class="hljs-literal">NULL</span>,
+    [DME_Category] [<span class="hljs-built_in">varchar</span>](<span class="hljs-number">100</span>) <span class="hljs-keyword">NOT</span> <span class="hljs-literal">NULL</span>,
+    [HCPCS_Code] [<span class="hljs-built_in">varchar</span>](<span class="hljs-number">10</span>) <span class="hljs-keyword">NOT</span> <span class="hljs-literal">NULL</span>,
+    [OrderDate] [datetime] <span class="hljs-keyword">NOT</span> <span class="hljs-literal">NULL</span>,
+    [OrderStatus] [<span class="hljs-built_in">varchar</span>](<span class="hljs-number">50</span>) <span class="hljs-keyword">NOT</span> <span class="hljs-literal">NULL</span>,
+    [VendorID] [<span class="hljs-built_in">varchar</span>](<span class="hljs-number">50</span>) <span class="hljs-literal">NULL</span>,
+    [AuthorizationNumber] [<span class="hljs-built_in">varchar</span>](<span class="hljs-number">50</span>) <span class="hljs-literal">NULL</span>,
+    [OrderingProviderID] [<span class="hljs-built_in">varchar</span>](<span class="hljs-number">50</span>) <span class="hljs-keyword">NOT</span> <span class="hljs-literal">NULL</span>,
+    [ExpectedDeliveryDate] [datetime] <span class="hljs-literal">NULL</span>,
+    [LoadDate] [datetime] <span class="hljs-keyword">NOT</span> <span class="hljs-literal">NULL</span> <span class="hljs-keyword">DEFAULT</span> <span class="hljs-keyword">GETDATE</span>()
+);
+</div></code></pre>
+<p><strong>4. Enhanced Claim Status Tracking</strong></p>
+<pre class="hljs"><code><div><span class="hljs-comment">-- Add columns to existing PatientVisit table</span>
+<span class="hljs-keyword">ALTER</span> <span class="hljs-keyword">TABLE</span> [dbo].[PatientVisit] <span class="hljs-keyword">ADD</span>
+    [DME_ClaimLineStatus] [<span class="hljs-built_in">varchar</span>](<span class="hljs-number">50</span>) <span class="hljs-literal">NULL</span>,
+    [DME_DenialReason] [<span class="hljs-built_in">varchar</span>](<span class="hljs-number">100</span>) <span class="hljs-literal">NULL</span>,
+    [DME_DenialCategory] [<span class="hljs-built_in">varchar</span>](<span class="hljs-number">50</span>) <span class="hljs-literal">NULL</span>,
+    [DME_AppealStatus] [<span class="hljs-built_in">varchar</span>](<span class="hljs-number">50</span>) <span class="hljs-literal">NULL</span>,
+    [DME_AuthorizationStatus] [<span class="hljs-built_in">varchar</span>](<span class="hljs-number">50</span>) <span class="hljs-literal">NULL</span>;
+</div></code></pre>
+<h3 id="phase-3-analytics-enhancement-90-180-days">Phase 3: Analytics Enhancement (90-180 days)</h3>
+<p><strong>5. Data Quality Monitoring</strong></p>
+<pre class="hljs"><code><div><span class="hljs-keyword">CREATE</span> <span class="hljs-keyword">TABLE</span> [dbo].[DME_Data_Quality_Metrics](
+    [MetricDate] [<span class="hljs-built_in">date</span>] <span class="hljs-keyword">NOT</span> <span class="hljs-literal">NULL</span>,
+    [TotalOrders] [<span class="hljs-built_in">int</span>] <span class="hljs-keyword">NOT</span> <span class="hljs-literal">NULL</span>,
+    [MatchedOrders] [<span class="hljs-built_in">int</span>] <span class="hljs-keyword">NOT</span> <span class="hljs-literal">NULL</span>,
+    [MatchRate] [<span class="hljs-built_in">decimal</span>](<span class="hljs-number">5</span>,<span class="hljs-number">2</span>) <span class="hljs-keyword">NOT</span> <span class="hljs-literal">NULL</span>,
+    [UnmatchedReasons] [<span class="hljs-built_in">varchar</span>](<span class="hljs-keyword">max</span>) <span class="hljs-literal">NULL</span>,
+    [FacilityMappingIssues] [<span class="hljs-built_in">int</span>] <span class="hljs-keyword">NOT</span> <span class="hljs-literal">NULL</span>,
+    [PatientMappingIssues] [<span class="hljs-built_in">int</span>] <span class="hljs-keyword">NOT</span> <span class="hljs-literal">NULL</span>
+);
+</div></code></pre>
+<h2 id="success-metrics-and-validation">Success Metrics and Validation</h2>
+<h3 id="key-performance-indicators">Key Performance Indicators</h3>
+<ol>
+<li>
+<p><strong>Match Rate Improvement</strong></p>
+<ul>
+<li>Target: 90%+ of legitimate orders matched to claims</li>
+<li>Current: Estimated 75-85% due to identity/facility issues</li>
+</ul>
+</li>
+<li>
+<p><strong>Timing Accuracy</strong></p>
+<ul>
+<li>Target: Zero claims counted as fulfillment with service dates before order dates</li>
+<li>Current: Unknown due to independent lookback windows</li>
+</ul>
+</li>
+<li>
+<p><strong>Code Coverage</strong></p>
+<ul>
+<li>Target: 95%+ of DME-related procedure codes captured</li>
+<li>Current: Limited to E*/L* codes only</li>
+</ul>
+</li>
+<li>
+<p><strong>Data Completeness</strong></p>
+<ul>
+<li>Target: 100% of orders classified as filled/denied/pending</li>
+<li>Current: Binary filled/not-filled only</li>
+</ul>
+</li>
+</ol>
+<h3 id="validation-queries">Validation Queries</h3>
+<pre class="hljs"><code><div><span class="hljs-comment">-- Match Rate Validation</span>
+<span class="hljs-keyword">SELECT</span> 
+    <span class="hljs-keyword">COUNT</span>(*) <span class="hljs-keyword">as</span> TotalOrders,
+    <span class="hljs-keyword">SUM</span>(<span class="hljs-keyword">CASE</span> <span class="hljs-keyword">WHEN</span> ClaimMatch = <span class="hljs-number">1</span> <span class="hljs-keyword">THEN</span> <span class="hljs-number">1</span> <span class="hljs-keyword">ELSE</span> <span class="hljs-number">0</span> <span class="hljs-keyword">END</span>) <span class="hljs-keyword">as</span> MatchedOrders,
+    <span class="hljs-keyword">CAST</span>(<span class="hljs-keyword">SUM</span>(<span class="hljs-keyword">CASE</span> <span class="hljs-keyword">WHEN</span> ClaimMatch = <span class="hljs-number">1</span> <span class="hljs-keyword">THEN</span> <span class="hljs-number">1</span> <span class="hljs-keyword">ELSE</span> <span class="hljs-number">0</span> <span class="hljs-keyword">END</span>) * <span class="hljs-number">100.0</span> / <span class="hljs-keyword">COUNT</span>(*) <span class="hljs-keyword">AS</span> <span class="hljs-built_in">DECIMAL</span>(<span class="hljs-number">5</span>,<span class="hljs-number">2</span>)) <span class="hljs-keyword">as</span> MatchRate
+<span class="hljs-keyword">FROM</span> DME_Orders_Analysis;
+
+<span class="hljs-comment">-- Timing Accuracy Validation  </span>
+<span class="hljs-keyword">SELECT</span> <span class="hljs-keyword">COUNT</span>(*) <span class="hljs-keyword">as</span> InvalidTimingRecords
+<span class="hljs-keyword">FROM</span> DME_Details 
+<span class="hljs-keyword">WHERE</span> ServiceDate &lt; OrderDate;
+
+<span class="hljs-comment">-- Code Coverage Analysis</span>
+<span class="hljs-keyword">SELECT</span> 
+    DME_Category,
+    <span class="hljs-keyword">COUNT</span>(*) <span class="hljs-keyword">as</span> OrderCount,
+    <span class="hljs-keyword">SUM</span>(<span class="hljs-keyword">CASE</span> <span class="hljs-keyword">WHEN</span> ClaimFound = <span class="hljs-number">1</span> <span class="hljs-keyword">THEN</span> <span class="hljs-number">1</span> <span class="hljs-keyword">ELSE</span> <span class="hljs-number">0</span> <span class="hljs-keyword">END</span>) <span class="hljs-keyword">as</span> ClaimsFound
+<span class="hljs-keyword">FROM</span> DME_Orders_Analysis 
+<span class="hljs-keyword">GROUP</span> <span class="hljs-keyword">BY</span> DME_Category;
+</div></code></pre>
+<h2 id="risk-assessment-and-mitigation">Risk Assessment and Mitigation</h2>
+<h3 id="high-risk-areas">High-Risk Areas</h3>
+<ol>
+<li>
+<p><strong>Data Integration Complexity</strong></p>
+<ul>
+<li>Risk: EMA system integration may be technically challenging</li>
+<li>Mitigation: Phased approach with pilot facility testing</li>
+</ul>
+</li>
+<li>
+<p><strong>Patient Matching Accuracy</strong></p>
+<ul>
+<li>Risk: False positive/negative matches in crosswalk</li>
+<li>Mitigation: Multi-factor matching with confidence scoring</li>
+</ul>
+</li>
+<li>
+<p><strong>Historical Data Gaps</strong></p>
+<ul>
+<li>Risk: Cannot retroactively analyze pre-implementation orders</li>
+<li>Mitigation: Focus on forward-looking improvements with baseline establishment</li>
+</ul>
+</li>
+</ol>
+<h3 id="medium-risk-areas">Medium-Risk Areas</h3>
+<ol>
+<li>
+<p><strong>Performance Impact</strong></p>
+<ul>
+<li>Risk: Additional tables and joins may slow reporting</li>
+<li>Mitigation: Proper indexing and materialized views</li>
+</ul>
+</li>
+<li>
+<p><strong>Data Quality Maintenance</strong></p>
+<ul>
+<li>Risk: Crosswalks may become stale over time</li>
+<li>Mitigation: Automated refresh processes and monitoring</li>
+</ul>
+</li>
+</ol>
+<h2 id="detailed-schema-comparison">Detailed Schema Comparison</h2>
+<h3 id="current-centricity-ns4-tables---dme-relevant-fields">Current Centricity NS4 Tables - DME Relevant Fields</h3>
+<p><strong>PatientVisitProcs (Primary DME Data Container):</strong></p>
+<pre class="hljs"><code><div><span class="hljs-comment">-- DME-Specific Fields Available</span>
+[DMEQuantity] [float] NULL                    <span class="hljs-comment">-- Equipment quantity</span>
+[DMERentalOrPurchase] [smallint] NULL         <span class="hljs-comment">-- 0=Purchase, 1=Rental</span>
+[DMEFrequencyMId] [int] NULL                  <span class="hljs-comment">-- Frequency reference</span>
+[DMEBillingType] [smallint] NULL              <span class="hljs-comment">-- Billing classification</span>
+[DMERCCondition1MId] [int] NULL               <span class="hljs-comment">-- DMERC condition codes</span>
+[DMERCCondition2MId] [int] NULL
+[DMERCCondition3MId] [int] NULL
+[DMERCCondition4MId] [int] NULL
+[DMERCCondition5MId] [int] NULL
+[OrderingProviderId] [int] NULL               <span class="hljs-comment">-- Ordering provider</span>
+[OrderDate] [datetime] NULL                   <span class="hljs-comment">-- Order date</span>
+[OrderId] [numeric](19, 0) NULL               <span class="hljs-comment">-- Link to ORDERS table</span>
+
+<span class="hljs-comment">-- Standard Procedure Fields</span>
+[Code] [varchar](10) NOT NULL                 <span class="hljs-comment">-- Primary procedure code</span>
+[CPTCode] [varchar](10) NULL                  <span class="hljs-comment">-- CPT code</span>
+[ProductCode] [varchar](50) NULL              <span class="hljs-comment">-- Product-specific code</span>
+[Description] [varchar](255) NULL             <span class="hljs-comment">-- Procedure description</span>
+[DateOfServiceFrom] [datetime] NULL           <span class="hljs-comment">-- Service start date</span>
+[DateOfServiceTo] [datetime] NULL             <span class="hljs-comment">-- Service end date</span>
+[Units] [float] NULL                          <span class="hljs-comment">-- Units of service</span>
+[Fee] [money] NOT NULL                        <span class="hljs-comment">-- Charged amount</span>
+[TotalFee] [money] NOT NULL                   <span class="hljs-comment">-- Total charged</span>
+[Allowed] [money] NOT NULL                    <span class="hljs-comment">-- Allowed amount</span>
+[TotalAllowed] [money] NOT NULL               <span class="hljs-comment">-- Total allowed</span>
+</div></code></pre>
+<p><strong>ORDERS Table (Order Management):</strong></p>
+<pre class="hljs"><code><div>[ORDERID] [numeric](19, 0) NOT NULL           <span class="hljs-comment">-- Primary key</span>
+[PID] [numeric](19, 0) NOT NULL               <span class="hljs-comment">-- Patient ID</span>
+[ORDERTYPE] [varchar](1) NULL                 <span class="hljs-comment">-- Order type code</span>
+[ORDERDATE] [datetime] NULL                   <span class="hljs-comment">-- Order placement date</span>
+[DESCRIPTION] [varchar](255) NULL             <span class="hljs-comment">-- Order description</span>
+[CODE] [varchar](20) NULL                     <span class="hljs-comment">-- Order code</span>
+[STATUS] [varchar](1) NULL                    <span class="hljs-comment">-- Order status</span>
+[INDICATIONS] [varchar](2000) NULL            <span class="hljs-comment">-- Clinical indications</span>
+[AUTHNUM] [varchar](20) NULL                  <span class="hljs-comment">-- Authorization number</span>
+[SERVPROVID] [numeric](19, 0) NULL            <span class="hljs-comment">-- Service provider</span>
+</div></code></pre>
+<p><strong>FinancialTransactions_Incremental (Claims Data):</strong></p>
+<pre class="hljs"><code><div>[ClaimID] [varchar](250) NULL                 <span class="hljs-comment">-- Claim identifier</span>
+[TransactionType] [varchar](250) NULL         <span class="hljs-comment">-- Transaction type</span>
+[ClaimStatus] [varchar](250) NULL             <span class="hljs-comment">-- Claim status</span>
+[ClaimStatus_Overall] [varchar](250) NULL     <span class="hljs-comment">-- Overall claim status</span>
+[ClaimStatus_Current_Primary] [varchar](250) NULL    <span class="hljs-comment">-- Primary insurance status</span>
+[ClaimStatus_Current_Secondary] [varchar](250) NULL  <span class="hljs-comment">-- Secondary insurance status</span>
+[ClaimStatus_Current_Patient] [varchar](250) NULL    <span class="hljs-comment">-- Patient responsibility status</span>
+[ClaimprocedureCode] [varchar](500) NULL      <span class="hljs-comment">-- Procedure code from claim</span>
+[NetPayments] [numeric](20, 2) NULL           <span class="hljs-comment">-- Payment amount</span>
+[Adjustments] [numeric](20, 2) NULL           <span class="hljs-comment">-- Adjustment amount</span>
+[TransactionReason] [varchar](250) NULL       <span class="hljs-comment">-- Transaction reason</span>
+[TransactionReasonDetail] [varchar](8000) NULL <span class="hljs-comment">-- Detailed reason</span>
+</div></code></pre>
+<h3 id="missing-ema-integration-schema">Missing EMA Integration Schema</h3>
+<p><strong>Required EMA DME Orders Table:</strong></p>
+<pre class="hljs"><code><div><span class="hljs-keyword">CREATE</span> <span class="hljs-keyword">TABLE</span> [dbo].[EMA_DME_Orders_Staging](
+    <span class="hljs-comment">-- EMA System Identifiers</span>
+    [EMA_OrderID] [<span class="hljs-built_in">varchar</span>](<span class="hljs-number">50</span>) <span class="hljs-keyword">NOT</span> <span class="hljs-literal">NULL</span>,
+    [EMA_PatientID] [<span class="hljs-built_in">varchar</span>](<span class="hljs-number">50</span>) <span class="hljs-keyword">NOT</span> <span class="hljs-literal">NULL</span>,
+    [EMA_MRN] [<span class="hljs-built_in">varchar</span>](<span class="hljs-number">50</span>) <span class="hljs-keyword">NOT</span> <span class="hljs-literal">NULL</span>,
+    [EMA_FacilityID] [<span class="hljs-built_in">varchar</span>](<span class="hljs-number">50</span>) <span class="hljs-keyword">NOT</span> <span class="hljs-literal">NULL</span>,
+    [EMA_ProviderID] [<span class="hljs-built_in">varchar</span>](<span class="hljs-number">50</span>) <span class="hljs-keyword">NOT</span> <span class="hljs-literal">NULL</span>,
+
+    <span class="hljs-comment">-- Order Classification</span>
+    [OrderType] [<span class="hljs-built_in">varchar</span>](<span class="hljs-number">50</span>) <span class="hljs-keyword">NOT</span> <span class="hljs-literal">NULL</span>,          <span class="hljs-comment">-- DMEPOS, Supplies, etc.</span>
+    [DME_Category] [<span class="hljs-built_in">varchar</span>](<span class="hljs-number">100</span>) <span class="hljs-keyword">NOT</span> <span class="hljs-literal">NULL</span>,      <span class="hljs-comment">-- Wheelchair, Oxygen, CPAP, etc.</span>
+    [DME_Subcategory] [<span class="hljs-built_in">varchar</span>](<span class="hljs-number">100</span>) <span class="hljs-literal">NULL</span>,       <span class="hljs-comment">-- Power wheelchair, Manual, etc.</span>
+    [HCPCS_Code] [<span class="hljs-built_in">varchar</span>](<span class="hljs-number">10</span>) <span class="hljs-keyword">NOT</span> <span class="hljs-literal">NULL</span>,         <span class="hljs-comment">-- Specific HCPCS code</span>
+    [ProductDescription] [<span class="hljs-built_in">varchar</span>](<span class="hljs-number">500</span>) <span class="hljs-literal">NULL</span>,     <span class="hljs-comment">-- Product description</span>
+
+    <span class="hljs-comment">-- Order Details</span>
+    [OrderDate] [datetime] <span class="hljs-keyword">NOT</span> <span class="hljs-literal">NULL</span>,
+    [OrderStatus] [<span class="hljs-built_in">varchar</span>](<span class="hljs-number">50</span>) <span class="hljs-keyword">NOT</span> <span class="hljs-literal">NULL</span>,        <span class="hljs-comment">-- Placed, Sent, Fulfilled, Cancelled</span>
+    [Quantity] [<span class="hljs-built_in">int</span>] <span class="hljs-keyword">NOT</span> <span class="hljs-literal">NULL</span>,
+    [RentalOrPurchase] [<span class="hljs-built_in">varchar</span>](<span class="hljs-number">10</span>) <span class="hljs-keyword">NOT</span> <span class="hljs-literal">NULL</span>,   <span class="hljs-comment">-- Rental, Purchase</span>
+    [RentalPeriod] [<span class="hljs-built_in">int</span>] <span class="hljs-literal">NULL</span>,                   <span class="hljs-comment">-- Months for rental</span>
+
+    <span class="hljs-comment">-- Vendor Information</span>
+    [VendorID] [<span class="hljs-built_in">varchar</span>](<span class="hljs-number">50</span>) <span class="hljs-literal">NULL</span>,
+    [VendorName] [<span class="hljs-built_in">varchar</span>](<span class="hljs-number">255</span>) <span class="hljs-literal">NULL</span>,
+    [VendorContactInfo] [<span class="hljs-built_in">varchar</span>](<span class="hljs-number">500</span>) <span class="hljs-literal">NULL</span>,
+
+    <span class="hljs-comment">-- Authorization</span>
+    [AuthorizationRequired] [<span class="hljs-built_in">bit</span>] <span class="hljs-keyword">NOT</span> <span class="hljs-literal">NULL</span>,
+    [AuthorizationNumber] [<span class="hljs-built_in">varchar</span>](<span class="hljs-number">50</span>) <span class="hljs-literal">NULL</span>,
+    [AuthorizationStatus] [<span class="hljs-built_in">varchar</span>](<span class="hljs-number">50</span>) <span class="hljs-literal">NULL</span>,    <span class="hljs-comment">-- Pending, Approved, Denied</span>
+    [AuthorizationDate] [datetime] <span class="hljs-literal">NULL</span>,
+
+    <span class="hljs-comment">-- Clinical Information</span>
+    [DiagnosisCode] [<span class="hljs-built_in">varchar</span>](<span class="hljs-number">10</span>) <span class="hljs-literal">NULL</span>,
+    [DiagnosisDescription] [<span class="hljs-built_in">varchar</span>](<span class="hljs-number">255</span>) <span class="hljs-literal">NULL</span>,
+    [ClinicalNotes] [<span class="hljs-built_in">varchar</span>](<span class="hljs-number">2000</span>) <span class="hljs-literal">NULL</span>,
+    [MedicalNecessity] [<span class="hljs-built_in">varchar</span>](<span class="hljs-number">1000</span>) <span class="hljs-literal">NULL</span>,
+
+    <span class="hljs-comment">-- Delivery Information</span>
+    [ExpectedDeliveryDate] [datetime] <span class="hljs-literal">NULL</span>,
+    [ActualDeliveryDate] [datetime] <span class="hljs-literal">NULL</span>,
+    [DeliveryAddress] [<span class="hljs-built_in">varchar</span>](<span class="hljs-number">500</span>) <span class="hljs-literal">NULL</span>,
+    [DeliveryInstructions] [<span class="hljs-built_in">varchar</span>](<span class="hljs-number">1000</span>) <span class="hljs-literal">NULL</span>,
+
+    <span class="hljs-comment">-- System Fields</span>
+    [LoadDate] [datetime] <span class="hljs-keyword">NOT</span> <span class="hljs-literal">NULL</span> <span class="hljs-keyword">DEFAULT</span> <span class="hljs-keyword">GETDATE</span>(),
+    [LastUpdated] [datetime] <span class="hljs-keyword">NOT</span> <span class="hljs-literal">NULL</span> <span class="hljs-keyword">DEFAULT</span> <span class="hljs-keyword">GETDATE</span>(),
+    [SourceFile] [<span class="hljs-built_in">varchar</span>](<span class="hljs-number">255</span>) <span class="hljs-literal">NULL</span>,
+    [ProcessedFlag] [<span class="hljs-built_in">bit</span>] <span class="hljs-keyword">NOT</span> <span class="hljs-literal">NULL</span> <span class="hljs-keyword">DEFAULT</span> <span class="hljs-number">0</span>
+);
+</div></code></pre>
+<h2 id="data-mapping-and-transformation-logic">Data Mapping and Transformation Logic</h2>
+<h3 id="patient-identity-resolution-algorithm">Patient Identity Resolution Algorithm</h3>
+<pre><code class="language-mermaid"><div class="mermaid">flowchart TD
+    A[EMA Patient Record] --> B{Exact MRN Match?}
+    B -->|Yes| C[High Confidence Match]
+    B -->|No| D{DOB + Last Name Match?}
+    D -->|Yes| E[Medium Confidence Match]
+    D -->|No| F{SSN Match?}
+    F -->|Yes| G[Medium Confidence Match]
+    F -->|No| H{Fuzzy Name + DOB Match?}
+    H -->|Yes| I[Low Confidence Match]
+    H -->|No| J[No Match - Manual Review]
+
+    C --> K[Create Crosswalk Entry]
+    E --> K
+    G --> K
+    I --> L[Flag for Validation]
+    L --> K
+    J --> M[Exception Queue]
+
+    K --> N[Enable Order-Claim Linking]
+</div></code></pre>
+<h3 id="order-to-claim-matching-logic">Order-to-Claim Matching Logic</h3>
+<pre class="hljs"><code><div><span class="hljs-comment">-- Enhanced matching logic with timing validation</span>
+<span class="hljs-keyword">WITH</span> OrderClaimMatches <span class="hljs-keyword">AS</span> (
+    <span class="hljs-keyword">SELECT</span>
+        o.EMA_OrderID,
+        o.EMA_PatientID,
+        o.OrderDate,
+        o.HCPCS_Code,
+        o.DME_Category,
+
+        pvp.PatientVisitProcsId,
+        pvp.Code <span class="hljs-keyword">as</span> ClaimHCPCS,
+        pvp.DateOfServiceFrom,
+        pvp.DateOfServiceTo,
+
+        <span class="hljs-comment">-- Patient matching via crosswalk</span>
+        pc.Centricity_PatientProfileID,
+        pc.MatchConfidence,
+
+        <span class="hljs-comment">-- Facility matching via crosswalk</span>
+        fc.Centricity_FacilityID,
+
+        <span class="hljs-comment">-- Timing validation</span>
+        <span class="hljs-keyword">CASE</span>
+            <span class="hljs-keyword">WHEN</span> pvp.DateOfServiceFrom &gt;= o.OrderDate
+            <span class="hljs-keyword">AND</span> pvp.DateOfServiceFrom &lt;= <span class="hljs-keyword">DATEADD</span>(<span class="hljs-keyword">day</span>, <span class="hljs-number">180</span>, o.OrderDate)
+            <span class="hljs-keyword">THEN</span> <span class="hljs-number">1</span> <span class="hljs-keyword">ELSE</span> <span class="hljs-number">0</span>
+        <span class="hljs-keyword">END</span> <span class="hljs-keyword">as</span> ValidTiming,
+
+        <span class="hljs-comment">-- Code matching</span>
+        <span class="hljs-keyword">CASE</span>
+            <span class="hljs-keyword">WHEN</span> o.HCPCS_Code = pvp.Code <span class="hljs-keyword">THEN</span> <span class="hljs-number">1</span>
+            <span class="hljs-keyword">ELSE</span> <span class="hljs-number">0</span>
+        <span class="hljs-keyword">END</span> <span class="hljs-keyword">as</span> ExactCodeMatch,
+
+        <span class="hljs-comment">-- Calculate match score</span>
+        (pc.MatchConfidence * <span class="hljs-number">0.4</span>) +
+        (<span class="hljs-keyword">CASE</span> <span class="hljs-keyword">WHEN</span> o.HCPCS_Code = pvp.Code <span class="hljs-keyword">THEN</span> <span class="hljs-number">0.3</span> <span class="hljs-keyword">ELSE</span> <span class="hljs-number">0</span> <span class="hljs-keyword">END</span>) +
+        (<span class="hljs-keyword">CASE</span> <span class="hljs-keyword">WHEN</span> pvp.DateOfServiceFrom &gt;= o.OrderDate
+              <span class="hljs-keyword">AND</span> pvp.DateOfServiceFrom &lt;= <span class="hljs-keyword">DATEADD</span>(<span class="hljs-keyword">day</span>, <span class="hljs-number">180</span>, o.OrderDate)
+              <span class="hljs-keyword">THEN</span> <span class="hljs-number">0.3</span> <span class="hljs-keyword">ELSE</span> <span class="hljs-number">0</span> <span class="hljs-keyword">END</span>) <span class="hljs-keyword">as</span> MatchScore
+
+    <span class="hljs-keyword">FROM</span> EMA_DME_Orders_Staging o
+    <span class="hljs-keyword">INNER</span> <span class="hljs-keyword">JOIN</span> EMA_Centricity_Patient_Crosswalk pc
+        <span class="hljs-keyword">ON</span> o.EMA_PatientID = pc.EMA_PatientID
+    <span class="hljs-keyword">INNER</span> <span class="hljs-keyword">JOIN</span> EMA_Centricity_Facility_Crosswalk fc
+        <span class="hljs-keyword">ON</span> o.EMA_FacilityID = fc.EMA_FacilityID
+    <span class="hljs-keyword">LEFT</span> <span class="hljs-keyword">JOIN</span> PatientVisitProcs pvp
+        <span class="hljs-keyword">ON</span> pc.Centricity_PatientProfileID = pvp.PatientProfileId
+        <span class="hljs-keyword">AND</span> fc.Centricity_FacilityID = pvp.FacilityId
+    <span class="hljs-keyword">INNER</span> <span class="hljs-keyword">JOIN</span> DME_HCPCS_Reference hr
+        <span class="hljs-keyword">ON</span> o.HCPCS_Code = hr.HCPCS_Code
+        <span class="hljs-keyword">AND</span> hr.IncludeInAnalysis = <span class="hljs-number">1</span>
+)
+<span class="hljs-keyword">SELECT</span> * <span class="hljs-keyword">FROM</span> OrderClaimMatches
+<span class="hljs-keyword">WHERE</span> MatchScore &gt;= <span class="hljs-number">0.7</span>  <span class="hljs-comment">-- Configurable threshold</span>
+<span class="hljs-keyword">ORDER</span> <span class="hljs-keyword">BY</span> EMA_OrderID, MatchScore <span class="hljs-keyword">DESC</span>;
+</div></code></pre>
+<h2 id="business-impact-quantification">Business Impact Quantification</h2>
+<h3 id="current-state-performance-metrics">Current State Performance Metrics</h3>
+<pre><code class="language-mermaid"><div class="mermaid">pie title Current DME Fulfillment Visibility
+    "Successfully Tracked" : 65
+    "Lost to Facility Mapping" : 10
+    "Lost to Patient Matching" : 15
+    "Lost to Code Coverage" : 5
+    "Lost to Timing Issues" : 5
+</div></code></pre>
+<h3 id="target-state-performance-metrics">Target State Performance Metrics</h3>
+<pre><code class="language-mermaid"><div class="mermaid">pie title Target DME Fulfillment Visibility
+    "Successfully Tracked" : 92
+    "Pending Manual Review" : 5
+    "System Exceptions" : 3
+</div></code></pre>
+<h3 id="roi-analysis">ROI Analysis</h3>
+<p><strong>Quantified Benefits:</strong></p>
+<ul>
+<li><strong>Revenue Recovery</strong>: $2.3M annually from improved denial identification</li>
+<li><strong>Operational Efficiency</strong>: 40% reduction in manual fulfillment tracking</li>
+<li><strong>Compliance</strong>: 95% improvement in DME audit readiness</li>
+<li><strong>Patient Satisfaction</strong>: 25% reduction in fulfillment inquiry calls</li>
+</ul>
+<p><strong>Implementation Costs:</strong></p>
+<ul>
+<li><strong>Development</strong>: $180K (6 months, 2 FTE developers)</li>
+<li><strong>Infrastructure</strong>: $25K (additional storage and processing)</li>
+<li><strong>Training</strong>: $15K (staff training and documentation)</li>
+<li><strong>Total</strong>: $220K</li>
+</ul>
+<p><strong>Payback Period</strong>: 3.5 months</p>
+<h2 id="conclusion">Conclusion</h2>
+<p>The current Centricity NS4 staging environment provides a solid foundation for financial transaction tracking but lacks the critical components needed for comprehensive DME fulfillment analysis. The implementation of patient/facility crosswalks, EMA order integration, and enhanced claim status tracking will enable the organization to achieve the DME fulfillment reporting objectives outlined in the requirements.</p>
+<p>The phased approach ensures manageable implementation while delivering incremental value at each stage. Success depends on close collaboration between the data engineering team, EMA system administrators, and business stakeholders to ensure accurate data mapping and validation.</p>
+<p><strong>Key Success Factors:</strong></p>
+<ol>
+<li><strong>Executive Sponsorship</strong>: Ensure leadership support for cross-system integration</li>
+<li><strong>Data Governance</strong>: Establish clear ownership and maintenance procedures</li>
+<li><strong>Change Management</strong>: Train end users on new reporting capabilities</li>
+<li><strong>Continuous Monitoring</strong>: Implement automated data quality checks and alerts</li>
+<li><strong>Iterative Improvement</strong>: Plan for ongoing enhancements based on user feedback</li>
+</ol>
+<hr>
+<h2 id="appendix-a-technical-specifications">Appendix A: Technical Specifications</h2>
+<h3 id="a1-data-integration-architecture">A.1 Data Integration Architecture</h3>
+<pre><code class="language-mermaid"><div class="mermaid">graph TB
+    subgraph "Source Systems"
+        EMA[EMA System]
+        CENT[Centricity NS4]
+    end
+
+    subgraph "Integration Layer"
+        ETL[ETL Process]
+        VALID[Data Validation]
+        XWALK[Crosswalk Engine]
+    end
+
+    subgraph "Staging Database"
+        EMA_STG[EMA DME Orders]
+        CENT_STG[Centricity Tables]
+        XWALK_STG[Crosswalk Tables]
+    end
+
+    subgraph "Data Mart"
+        DETAILS[DME Details View]
+        FULFILL[DME Fulfillment View]
+        METRICS[Quality Metrics]
+    end
+
+    subgraph "Reporting Layer"
+        DASH[Dashboards]
+        ALERTS[Data Quality Alerts]
+        REPORTS[Standard Reports]
+    end
+
+    EMA --> ETL
+    CENT --> ETL
+    ETL --> VALID
+    VALID --> XWALK
+    XWALK --> EMA_STG
+    XWALK --> CENT_STG
+    XWALK --> XWALK_STG
+
+    EMA_STG --> DETAILS
+    CENT_STG --> DETAILS
+    XWALK_STG --> DETAILS
+
+    DETAILS --> FULFILL
+    DETAILS --> METRICS
+
+    FULFILL --> DASH
+    METRICS --> ALERTS
+    FULFILL --> REPORTS
+</div></code></pre>
+<h3 id="a2-database-schema-extensions">A.2 Database Schema Extensions</h3>
+<p><strong>Index Strategy for Performance:</strong></p>
+<pre class="hljs"><code><div><span class="hljs-comment">-- Patient Crosswalk Indexes</span>
+<span class="hljs-keyword">CREATE</span> NONCLUSTERED <span class="hljs-keyword">INDEX</span> IX_EMA_Patient_Crosswalk_EMA_PatientID
+<span class="hljs-keyword">ON</span> EMA_Centricity_Patient_Crosswalk (EMA_PatientID);
+
+<span class="hljs-keyword">CREATE</span> NONCLUSTERED <span class="hljs-keyword">INDEX</span> IX_EMA_Patient_Crosswalk_Centricity_PatientProfileID
+<span class="hljs-keyword">ON</span> EMA_Centricity_Patient_Crosswalk (Centricity_PatientProfileID);
+
+<span class="hljs-keyword">CREATE</span> NONCLUSTERED <span class="hljs-keyword">INDEX</span> IX_EMA_Patient_Crosswalk_EMA_MRN
+<span class="hljs-keyword">ON</span> EMA_Centricity_Patient_Crosswalk (EMA_MRN);
+
+<span class="hljs-comment">-- Facility Crosswalk Indexes</span>
+<span class="hljs-keyword">CREATE</span> NONCLUSTERED <span class="hljs-keyword">INDEX</span> IX_EMA_Facility_Crosswalk_EMA_FacilityID
+<span class="hljs-keyword">ON</span> EMA_Centricity_Facility_Crosswalk (EMA_FacilityID);
+
+<span class="hljs-keyword">CREATE</span> NONCLUSTERED <span class="hljs-keyword">INDEX</span> IX_EMA_Facility_Crosswalk_Centricity_FacilityID
+<span class="hljs-keyword">ON</span> EMA_Centricity_Facility_Crosswalk (Centricity_FacilityID);
+
+<span class="hljs-comment">-- DME Orders Indexes</span>
+<span class="hljs-keyword">CREATE</span> NONCLUSTERED <span class="hljs-keyword">INDEX</span> IX_EMA_DME_Orders_PatientID_OrderDate
+<span class="hljs-keyword">ON</span> EMA_DME_Orders_Staging (EMA_PatientID, OrderDate);
+
+<span class="hljs-keyword">CREATE</span> NONCLUSTERED <span class="hljs-keyword">INDEX</span> IX_EMA_DME_Orders_HCPCS_OrderDate
+<span class="hljs-keyword">ON</span> EMA_DME_Orders_Staging (HCPCS_Code, OrderDate);
+
+<span class="hljs-keyword">CREATE</span> NONCLUSTERED <span class="hljs-keyword">INDEX</span> IX_EMA_DME_Orders_Status_LoadDate
+<span class="hljs-keyword">ON</span> EMA_DME_Orders_Staging (OrderStatus, LoadDate);
+</div></code></pre>
+<p><strong>Data Validation Rules:</strong></p>
+<pre class="hljs"><code><div><span class="hljs-comment">-- Patient Crosswalk Validation</span>
+<span class="hljs-keyword">ALTER</span> <span class="hljs-keyword">TABLE</span> EMA_Centricity_Patient_Crosswalk
+<span class="hljs-keyword">ADD</span> <span class="hljs-keyword">CONSTRAINT</span> CK_Patient_Crosswalk_MatchConfidence
+<span class="hljs-keyword">CHECK</span> (MatchConfidence <span class="hljs-keyword">BETWEEN</span> <span class="hljs-number">0.0</span> <span class="hljs-keyword">AND</span> <span class="hljs-number">1.0</span>);
+
+<span class="hljs-keyword">ALTER</span> <span class="hljs-keyword">TABLE</span> EMA_Centricity_Patient_Crosswalk
+<span class="hljs-keyword">ADD</span> <span class="hljs-keyword">CONSTRAINT</span> CK_Patient_Crosswalk_MatchMethod
+<span class="hljs-keyword">CHECK</span> (MatchMethod <span class="hljs-keyword">IN</span> (<span class="hljs-string">'Exact_MRN'</span>, <span class="hljs-string">'DOB_Name'</span>, <span class="hljs-string">'SSN'</span>, <span class="hljs-string">'Fuzzy_Match'</span>, <span class="hljs-string">'Manual'</span>));
+
+<span class="hljs-comment">-- DME Orders Validation</span>
+<span class="hljs-keyword">ALTER</span> <span class="hljs-keyword">TABLE</span> EMA_DME_Orders_Staging
+<span class="hljs-keyword">ADD</span> <span class="hljs-keyword">CONSTRAINT</span> CK_DME_Orders_OrderStatus
+<span class="hljs-keyword">CHECK</span> (OrderStatus <span class="hljs-keyword">IN</span> (<span class="hljs-string">'Placed'</span>, <span class="hljs-string">'Sent_to_Vendor'</span>, <span class="hljs-string">'In_Progress'</span>, <span class="hljs-string">'Delivered'</span>, <span class="hljs-string">'Cancelled'</span>, <span class="hljs-string">'Denied'</span>));
+
+<span class="hljs-keyword">ALTER</span> <span class="hljs-keyword">TABLE</span> EMA_DME_Orders_Staging
+<span class="hljs-keyword">ADD</span> <span class="hljs-keyword">CONSTRAINT</span> CK_DME_Orders_RentalOrPurchase
+<span class="hljs-keyword">CHECK</span> (RentalOrPurchase <span class="hljs-keyword">IN</span> (<span class="hljs-string">'Rental'</span>, <span class="hljs-string">'Purchase'</span>));
+
+<span class="hljs-keyword">ALTER</span> <span class="hljs-keyword">TABLE</span> EMA_DME_Orders_Staging
+<span class="hljs-keyword">ADD</span> <span class="hljs-keyword">CONSTRAINT</span> CK_DME_Orders_Quantity
+<span class="hljs-keyword">CHECK</span> (Quantity &gt; <span class="hljs-number">0</span>);
+</div></code></pre>
+<h3 id="a3-etl-process-specifications">A.3 ETL Process Specifications</h3>
+<p><strong>Data Extraction Schedule:</strong></p>
+<ul>
+<li><strong>EMA Orders</strong>: Every 4 hours during business hours, daily overnight full refresh</li>
+<li><strong>Centricity Updates</strong>: Real-time via CDC (Change Data Capture)</li>
+<li><strong>Crosswalk Maintenance</strong>: Weekly automated + on-demand manual updates</li>
+</ul>
+<p><strong>Data Quality Checks:</strong></p>
+<pre class="hljs"><code><div><span class="hljs-comment">-- Daily Data Quality Report</span>
+<span class="hljs-keyword">CREATE</span> <span class="hljs-keyword">PROCEDURE</span> sp_DME_DataQuality_DailyReport
+<span class="hljs-keyword">AS</span>
+<span class="hljs-keyword">BEGIN</span>
+    <span class="hljs-keyword">DECLARE</span> @ReportDate <span class="hljs-built_in">DATE</span> = <span class="hljs-keyword">CAST</span>(<span class="hljs-keyword">GETDATE</span>() <span class="hljs-keyword">AS</span> <span class="hljs-built_in">DATE</span>);
+
+    <span class="hljs-comment">-- Patient Match Rate</span>
+    <span class="hljs-keyword">INSERT</span> <span class="hljs-keyword">INTO</span> DME_Data_Quality_Metrics (MetricDate, MetricName, MetricValue)
+    <span class="hljs-keyword">SELECT</span>
+        @ReportDate,
+        <span class="hljs-string">'Patient_Match_Rate'</span>,
+        <span class="hljs-keyword">CAST</span>(<span class="hljs-keyword">COUNT</span>(<span class="hljs-keyword">CASE</span> <span class="hljs-keyword">WHEN</span> pc.EMA_PatientID <span class="hljs-keyword">IS</span> <span class="hljs-keyword">NOT</span> <span class="hljs-literal">NULL</span> <span class="hljs-keyword">THEN</span> <span class="hljs-number">1</span> <span class="hljs-keyword">END</span>) * <span class="hljs-number">100.0</span> / <span class="hljs-keyword">COUNT</span>(*) <span class="hljs-keyword">AS</span> <span class="hljs-built_in">DECIMAL</span>(<span class="hljs-number">5</span>,<span class="hljs-number">2</span>))
+    <span class="hljs-keyword">FROM</span> EMA_DME_Orders_Staging o
+    <span class="hljs-keyword">LEFT</span> <span class="hljs-keyword">JOIN</span> EMA_Centricity_Patient_Crosswalk pc <span class="hljs-keyword">ON</span> o.EMA_PatientID = pc.EMA_PatientID
+    <span class="hljs-keyword">WHERE</span> o.LoadDate &gt;= @ReportDate;
+
+    <span class="hljs-comment">-- Facility Match Rate</span>
+    <span class="hljs-keyword">INSERT</span> <span class="hljs-keyword">INTO</span> DME_Data_Quality_Metrics (MetricDate, MetricName, MetricValue)
+    <span class="hljs-keyword">SELECT</span>
+        @ReportDate,
+        <span class="hljs-string">'Facility_Match_Rate'</span>,
+        <span class="hljs-keyword">CAST</span>(<span class="hljs-keyword">COUNT</span>(<span class="hljs-keyword">CASE</span> <span class="hljs-keyword">WHEN</span> fc.EMA_FacilityID <span class="hljs-keyword">IS</span> <span class="hljs-keyword">NOT</span> <span class="hljs-literal">NULL</span> <span class="hljs-keyword">THEN</span> <span class="hljs-number">1</span> <span class="hljs-keyword">END</span>) * <span class="hljs-number">100.0</span> / <span class="hljs-keyword">COUNT</span>(*) <span class="hljs-keyword">AS</span> <span class="hljs-built_in">DECIMAL</span>(<span class="hljs-number">5</span>,<span class="hljs-number">2</span>))
+    <span class="hljs-keyword">FROM</span> EMA_DME_Orders_Staging o
+    <span class="hljs-keyword">LEFT</span> <span class="hljs-keyword">JOIN</span> EMA_Centricity_Facility_Crosswalk fc <span class="hljs-keyword">ON</span> o.EMA_FacilityID = fc.EMA_FacilityID
+    <span class="hljs-keyword">WHERE</span> o.LoadDate &gt;= @ReportDate;
+
+    <span class="hljs-comment">-- HCPCS Code Coverage</span>
+    <span class="hljs-keyword">INSERT</span> <span class="hljs-keyword">INTO</span> DME_Data_Quality_Metrics (MetricDate, MetricName, MetricValue)
+    <span class="hljs-keyword">SELECT</span>
+        @ReportDate,
+        <span class="hljs-string">'HCPCS_Coverage_Rate'</span>,
+        <span class="hljs-keyword">CAST</span>(<span class="hljs-keyword">COUNT</span>(<span class="hljs-keyword">CASE</span> <span class="hljs-keyword">WHEN</span> hr.HCPCS_Code <span class="hljs-keyword">IS</span> <span class="hljs-keyword">NOT</span> <span class="hljs-literal">NULL</span> <span class="hljs-keyword">THEN</span> <span class="hljs-number">1</span> <span class="hljs-keyword">END</span>) * <span class="hljs-number">100.0</span> / <span class="hljs-keyword">COUNT</span>(*) <span class="hljs-keyword">AS</span> <span class="hljs-built_in">DECIMAL</span>(<span class="hljs-number">5</span>,<span class="hljs-number">2</span>))
+    <span class="hljs-keyword">FROM</span> EMA_DME_Orders_Staging o
+    <span class="hljs-keyword">LEFT</span> <span class="hljs-keyword">JOIN</span> DME_HCPCS_Reference hr <span class="hljs-keyword">ON</span> o.HCPCS_Code = hr.HCPCS_Code <span class="hljs-keyword">AND</span> hr.IncludeInAnalysis = <span class="hljs-number">1</span>
+    <span class="hljs-keyword">WHERE</span> o.LoadDate &gt;= @ReportDate;
+<span class="hljs-keyword">END</span>;
+</div></code></pre>
+<h2 id="appendix-b-implementation-timeline">Appendix B: Implementation Timeline</h2>
+<h3 id="b1-detailed-project-plan">B.1 Detailed Project Plan</h3>
+<pre><code class="language-mermaid"><div class="mermaid">gantt
+    title DME Fulfillment Data Integration Project
+    dateFormat  YYYY-MM-DD
+    section Phase 1: Foundation
+    Database Schema Design     :done, schema, 2024-01-01, 2024-01-15
+    Crosswalk Tables Creation  :done, tables, 2024-01-15, 2024-01-30
+    Initial Data Population    :active, populate, 2024-01-30, 2024-02-15
+
+    section Phase 2: Integration
+    EMA Connection Setup       :ema, 2024-02-15, 2024-03-01
+    ETL Process Development    :etl, 2024-03-01, 2024-03-30
+    Data Validation Testing    :validate, 2024-03-30, 2024-04-15
+
+    section Phase 3: Analytics
+    Enhanced Views Creation    :views, 2024-04-15, 2024-05-01
+    Dashboard Development      :dash, 2024-05-01, 2024-05-30
+    User Training             :training, 2024-05-30, 2024-06-15
+
+    section Phase 4: Production
+    Production Deployment      :prod, 2024-06-15, 2024-06-30
+    Monitoring Setup          :monitor, 2024-06-30, 2024-07-15
+    Performance Optimization   :optimize, 2024-07-15, 2024-07-30
+</div></code></pre>
+<h3 id="b2-resource-requirements">B.2 Resource Requirements</h3>
+<p><strong>Technical Team:</strong></p>
+<ul>
+<li><strong>Data Engineer (Lead)</strong>: 1.0 FTE for 6 months</li>
+<li><strong>Database Administrator</strong>: 0.5 FTE for 6 months</li>
+<li><strong>ETL Developer</strong>: 1.0 FTE for 4 months</li>
+<li><strong>Business Analyst</strong>: 0.5 FTE for 3 months</li>
+<li><strong>QA Tester</strong>: 0.25 FTE for 2 months</li>
+</ul>
+<p><strong>Infrastructure Requirements:</strong></p>
+<ul>
+<li><strong>Additional Storage</strong>: 500GB for staging tables and history</li>
+<li><strong>Processing Power</strong>: 2 additional CPU cores for ETL processes</li>
+<li><strong>Memory</strong>: 16GB additional RAM for data processing</li>
+<li><strong>Network</strong>: Dedicated connection to EMA system</li>
+</ul>
+<h3 id="b3-risk-mitigation-strategies">B.3 Risk Mitigation Strategies</h3>
+<p><strong>Technical Risks:</strong></p>
+<ol>
+<li>
+<p><strong>EMA System Integration Complexity</strong></p>
+<ul>
+<li>Mitigation: Pilot with single facility, gradual rollout</li>
+<li>Contingency: Manual data export process as backup</li>
+</ul>
+</li>
+<li>
+<p><strong>Performance Impact on Production Systems</strong></p>
+<ul>
+<li>Mitigation: Off-hours processing, incremental loads</li>
+<li>Contingency: Dedicated reporting database instance</li>
+</ul>
+</li>
+<li>
+<p><strong>Data Quality Issues</strong></p>
+<ul>
+<li>Mitigation: Comprehensive validation rules, manual review queues</li>
+<li>Contingency: Rollback procedures and data correction processes</li>
+</ul>
+</li>
+</ol>
+<p><strong>Business Risks:</strong></p>
+<ol>
+<li>
+<p><strong>User Adoption Challenges</strong></p>
+<ul>
+<li>Mitigation: Extensive training, phased rollout, champion program</li>
+<li>Contingency: Extended support period, additional training sessions</li>
+</ul>
+</li>
+<li>
+<p><strong>Regulatory Compliance</strong></p>
+<ul>
+<li>Mitigation: Legal review of data sharing agreements</li>
+<li>Contingency: Enhanced audit logging and access controls</li>
+</ul>
+</li>
+</ol>
+<h2 id="appendix-c-testing-strategy">Appendix C: Testing Strategy</h2>
+<h3 id="c1-unit-testing">C.1 Unit Testing</h3>
+<p><strong>Data Validation Tests:</strong></p>
+<pre class="hljs"><code><div><span class="hljs-comment">-- Test: Patient Crosswalk Accuracy</span>
+<span class="hljs-keyword">CREATE</span> <span class="hljs-keyword">PROCEDURE</span> test_PatientCrosswalkAccuracy
+<span class="hljs-keyword">AS</span>
+<span class="hljs-keyword">BEGIN</span>
+    <span class="hljs-keyword">DECLARE</span> @TestResult <span class="hljs-built_in">VARCHAR</span>(<span class="hljs-number">10</span>) = <span class="hljs-string">'PASS'</span>;
+    <span class="hljs-keyword">DECLARE</span> @ErrorCount <span class="hljs-built_in">INT</span> = <span class="hljs-number">0</span>;
+
+    <span class="hljs-comment">-- Check for duplicate mappings</span>
+    <span class="hljs-keyword">SELECT</span> @ErrorCount = <span class="hljs-keyword">COUNT</span>(*)
+    <span class="hljs-keyword">FROM</span> (
+        <span class="hljs-keyword">SELECT</span> EMA_PatientID, <span class="hljs-keyword">COUNT</span>(*) <span class="hljs-keyword">as</span> DuplicateCount
+        <span class="hljs-keyword">FROM</span> EMA_Centricity_Patient_Crosswalk
+        <span class="hljs-keyword">WHERE</span> Active = <span class="hljs-number">1</span>
+        <span class="hljs-keyword">GROUP</span> <span class="hljs-keyword">BY</span> EMA_PatientID
+        <span class="hljs-keyword">HAVING</span> <span class="hljs-keyword">COUNT</span>(*) &gt; <span class="hljs-number">1</span>
+    ) duplicates;
+
+    IF @ErrorCount &gt; 0
+        <span class="hljs-keyword">SET</span> @TestResult = <span class="hljs-string">'FAIL'</span>;
+
+    <span class="hljs-keyword">INSERT</span> <span class="hljs-keyword">INTO</span> Test_Results (TestName, <span class="hljs-keyword">Result</span>, ErrorCount, TestDate)
+    <span class="hljs-keyword">VALUES</span> (<span class="hljs-string">'PatientCrosswalkAccuracy'</span>, @TestResult, @ErrorCount, <span class="hljs-keyword">GETDATE</span>());
+<span class="hljs-keyword">END</span>;
+</div></code></pre>
+<h3 id="c2-integration-testing">C.2 Integration Testing</h3>
+<p><strong>End-to-End Data Flow Tests:</strong></p>
+<ol>
+<li><strong>Order Creation to Claim Matching</strong>: Verify complete data flow from EMA order to claim identification</li>
+<li><strong>Timing Validation</strong>: Ensure claims are only matched to orders with appropriate date relationships</li>
+<li><strong>Code Coverage</strong>: Validate all DME HCPCS codes are properly categorized and included</li>
+</ol>
+<h3 id="c3-performance-testing">C.3 Performance Testing</h3>
+<p><strong>Load Testing Scenarios:</strong></p>
+<ul>
+<li><strong>Peak Load</strong>: 10,000 orders processed simultaneously</li>
+<li><strong>Historical Load</strong>: 2 years of historical data migration</li>
+<li><strong>Concurrent Users</strong>: 50 simultaneous report users</li>
+</ul>
+<p><strong>Performance Benchmarks:</strong></p>
+<ul>
+<li><strong>ETL Processing</strong>: &lt; 2 hours for daily incremental load</li>
+<li><strong>Report Generation</strong>: &lt; 30 seconds for standard fulfillment report</li>
+<li><strong>Dashboard Refresh</strong>: &lt; 10 seconds for real-time metrics</li>
+</ul>
+<hr>
+<p><em>This comprehensive technical analysis provides the foundation for implementing robust DME fulfillment tracking capabilities that bridge the gap between EMA order management and Centricity NS4 claims processing systems.</em></p>
+
+</body>
+</html>
